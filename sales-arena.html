@@ -50,8 +50,8 @@ header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1
 .mini-chip .mc-pct{font-weight:800;margin-left:auto;}
 
 /* PÓDIO */
-.podium-arena{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;}
-.podium-stage{display:flex;align-items:flex-end;justify-content:center;gap:20px;width:100%;}
+.podium-arena{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;position:relative;overflow:hidden;gap:0;}
+.podium-stage{display:flex;align-items:flex-end;justify-content:center;gap:20px;width:100%;flex-shrink:0;}
 .character-wrap{display:flex;flex-direction:column;align-items:center;position:relative;}
 .character{font-size:clamp(50px,7vw,80px);animation:idle 3s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(255,255,255,.2));cursor:default;transition:all .5s;}
 .character.entering{animation:enterPodium .8s cubic-bezier(.34,1.56,.64,1) forwards,idle 3s 0.8s ease-in-out infinite;}
