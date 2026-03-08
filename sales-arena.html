@@ -451,49 +451,59 @@ body.shaking{animation:screenShake .7s cubic-bezier(.36,.07,.19,.97);}
 
 <div id="particles"></div>
 
-<!-- ═══════════════ OVERLAY ÉPICO ═══════════════ -->
+<!-- ═══════════════ OVERLAY ARENA DE GLADIADORES ═══════════════ -->
 <div id="epic-overlay">
   <div id="epic-bg"></div>
-  <div id="epic-flash"></div>
-  <div id="epic-rays"></div>
-  <div id="epic-shockwave"></div>
+  <div id="epic-ground"></div>
+  <div id="epic-crowd"></div>
 
-  <div id="epic-title">👑 NOVO LÍDER! 👑</div>
-  <div id="epic-sub">TOMADA DE PÓDIO</div>
+  <!-- Braseiros -->
+  <div class="brazier brazier-left">🔥</div>
+  <div class="brazier brazier-right">🔥</div>
+  <div class="torch-ray torch-ray-left"></div>
+  <div class="torch-ray torch-ray-right"></div>
+
+  <div id="epic-shockwave"></div>
+  <div id="epic-shockwave2"></div>
+
+  <div id="epic-banner">
+    <div id="epic-title">⚔️ NOVO LÍDER! ⚔️</div>
+    <div id="epic-sub">TOMADA DE PÓDIO · ARENA DE VENDAS</div>
+  </div>
 
   <div id="epic-arena">
-    <!-- Perdedor (lado esquerdo, sendo empurrado) -->
+    <!-- Perdedor — sendo nocauteado -->
     <div id="epic-loser">
-      <div id="epic-loser-emoji">🥷</div>
       <div id="epic-loser-name">Fulano</div>
-      <div id="epic-loser-badge">Desbancado do 🥇</div>
+      <div id="epic-loser-emoji">🥷</div>
+      <div id="epic-loser-badge">Era o 🥇 1º</div>
     </div>
 
-    <!-- VS / Crown no centro -->
+    <!-- Centro — espadas cruzadas -->
     <div id="epic-crown">
-      <div class="crown-emoji">💥</div>
+      <div class="crown-emoji">⚔️</div>
       <div class="vs-txt">VS</div>
     </div>
 
-    <!-- Vencedor (lado direito, empurrando) -->
+    <!-- Vencedor — entra destruindo -->
     <div id="epic-winner">
-      <div id="epic-winner-emoji">🦸</div>
       <div id="epic-winner-name">Ciclano</div>
+      <div id="epic-winner-emoji">🦸</div>
       <div id="epic-winner-pct">99%</div>
     </div>
   </div>
 
-  <div id="epic-msg">🔥 DESBANCOU O LÍDER COM FORÇA TOTAL!</div>
+  <div id="epic-msg">⚔️ DESBANCOU O LÍDER COM FORÇA TOTAL!</div>
   <div id="epic-rank-badge">🏆 1º LUGAR · NOVO CAMPEÃO DA ARENA</div>
 
   <div id="epic-side-info">
     <div class="side-card">
-      <div class="sc-lbl">⚡ Novo Líder</div>
-      <div class="sc-val" id="sc-new-pct" style="color:var(--gold)">—</div>
+      <div class="sc-lbl">🏆 Novo Líder</div>
+      <div class="sc-val" id="sc-new-pct" style="color:#fbbf24">—</div>
     </div>
     <div class="side-card">
       <div class="sc-lbl">💀 Desbancado</div>
-      <div class="sc-val" id="sc-old-pct" style="color:var(--muted)">—</div>
+      <div class="sc-val" id="sc-old-pct" style="color:#64748b">—</div>
     </div>
   </div>
 
@@ -534,6 +544,12 @@ body.shaking{animation:screenShake .7s cubic-bezier(.36,.07,.19,.97);}
   <div class="podium-arena">
     <div class="podium-stage" id="podium-stage"></div>
     <div class="podium-history" id="podium-history"></div>
+
+    <!-- CAÍDOS NA ARENA -->
+    <div class="fallen-section" id="fallen-section">
+      <div class="fallen-title">⚔️ CAÍDOS NA ARENA — QUERENDO SE REERGUER</div>
+      <div class="fallen-list" id="fallen-list"></div>
+    </div>
   </div>
 </div>
 
@@ -579,19 +595,6 @@ const EMOJIS_2=['🏋️','🤺','🎯','🦅','🐺','💫','⚔️','🛡️',
     const sz=Math.random()*6+3;
     p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*20+15}s;animation-delay:${Math.random()*15}s;`;
     c.appendChild(p);
-  }
-})();
-
-// Raios de luz épicos
-(()=>{
-  const r=document.getElementById('epic-rays');
-  for(let i=0;i<12;i++){
-    const ray=document.createElement('div');
-    ray.className='ray';
-    ray.style.transform=`rotate(${i*30}deg)`;
-    ray.style.animationDuration=`${8+i*0.5}s`;
-    ray.style.animationDelay=`${i*0.2}s`;
-    r.appendChild(ray);
   }
 })();
 
@@ -645,106 +648,188 @@ function launchConfetti(x,y){
 }
 
 // ════════════════════════════════════════
+// SOM DE IMPACTO — Web Audio API
+// ════════════════════════════════════════
+function playImpactSound(){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+
+    // BOMBA — sub bass boom
+    const boom=ctx.createOscillator();
+    const boomGain=ctx.createGain();
+    boom.connect(boomGain);boomGain.connect(ctx.destination);
+    boom.type='sine';boom.frequency.setValueAtTime(80,ctx.currentTime);
+    boom.frequency.exponentialRampToValueAtTime(20,ctx.currentTime+0.5);
+    boomGain.gain.setValueAtTime(1.2,ctx.currentTime);
+    boomGain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.6);
+    boom.start(ctx.currentTime);boom.stop(ctx.currentTime+0.6);
+
+    // CRASH metálico
+    const bufSize=ctx.sampleRate*0.4;
+    const buf=ctx.createBuffer(1,bufSize,ctx.sampleRate);
+    const d=buf.getChannelData(0);
+    for(let i=0;i<bufSize;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/bufSize,2);
+    const crash=ctx.createBufferSource();
+    crash.buffer=buf;
+    const crashFilter=ctx.createBiquadFilter();
+    crashFilter.type='highpass';crashFilter.frequency.value=1200;
+    const crashGain=ctx.createGain();
+    crashGain.gain.setValueAtTime(0.8,ctx.currentTime+0.05);
+    crashGain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.5);
+    crash.connect(crashFilter);crashFilter.connect(crashGain);crashGain.connect(ctx.destination);
+    crash.start(ctx.currentTime+0.05);
+
+    // FANFARRA — acorde de vitória
+    const notes=[523,659,784,1047];
+    notes.forEach((freq,i)=>{
+      const osc=ctx.createOscillator();
+      const g=ctx.createGain();
+      osc.connect(g);g.connect(ctx.destination);
+      osc.type='sawtooth';
+      osc.frequency.value=freq;
+      g.gain.setValueAtTime(0,ctx.currentTime+0.3+i*0.07);
+      g.gain.linearRampToValueAtTime(0.18,ctx.currentTime+0.35+i*0.07);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+1.2+i*0.07);
+      osc.start(ctx.currentTime+0.3+i*0.07);
+      osc.stop(ctx.currentTime+1.4);
+    });
+
+    // ROAR da multidão (ruído pink filtrado)
+    const crowdBuf=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate);
+    const cd=crowdBuf.getChannelData(0);
+    for(let i=0;i<cd.length;i++) cd[i]=(Math.random()*2-1)*.4;
+    const crowd=ctx.createBufferSource();crowd.buffer=crowdBuf;
+    const crowdFilter=ctx.createBiquadFilter();
+    crowdFilter.type='bandpass';crowdFilter.frequency.value=600;crowdFilter.Q.value=0.3;
+    const crowdGain=ctx.createGain();
+    crowdGain.gain.setValueAtTime(0,ctx.currentTime+0.2);
+    crowdGain.gain.linearRampToValueAtTime(0.3,ctx.currentTime+0.8);
+    crowdGain.gain.linearRampToValueAtTime(0.15,ctx.currentTime+2);
+    crowdGain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+2.5);
+    crowd.connect(crowdFilter);crowdFilter.connect(crowdGain);crowdGain.connect(ctx.destination);
+    crowd.start(ctx.currentTime+0.2);
+  }catch(e){}
+}
+
+// ════════════════════════════════════════
+// SHAKE NA TELA
+// ════════════════════════════════════════
+function shakeScreen(){
+  document.body.classList.remove('shaking');
+  void document.body.offsetWidth;
+  document.body.classList.add('shaking');
+  setTimeout(()=>document.body.classList.remove('shaking'),800);
+}
+
+// ════════════════════════════════════════
+// BRASAS / FAÍSCAS VOANDO
+// ════════════════════════════════════════
+function launchEpicConfetti(){
+  const overlay=document.getElementById('epic-overlay');
+  const embers=['🔥','⚡','✨','💥','⚔️','🌟','💫'];
+  const colors=['#f59e0b','#fbbf24','#ef4444','#f97316','#fff','#fde68a'];
+
+  // Brasas de fogo das laterais
+  for(let i=0;i<60;i++){
+    const el=document.createElement('div');
+    el.className='epic-confetti';
+    const isEmber=Math.random()>.75;
+    const sz=isEmber?Math.random()*18+10:Math.random()*10+4;
+    const x=Math.random()<.5?Math.random()*15:85+Math.random()*15;
+    const delay=Math.random()*2;
+    const dur=Math.random()*2+1.5;
+    const color=colors[Math.floor(Math.random()*colors.length)];
+    el.style.cssText=`
+      ${isEmber?`content:'${embers[Math.floor(Math.random()*embers.length)]}';font-size:${sz}px;`:`width:${sz}px;height:${sz}px;background:${color};border-radius:${Math.random()>.5?'50%':'2px'};`}
+      left:${x}vw;top:-20px;
+      animation-duration:${dur}s;animation-delay:${delay}s;`;
+    if(isEmber) el.textContent=embers[Math.floor(Math.random()*embers.length)];
+    overlay.appendChild(el);
+    setTimeout(()=>el.remove(),(dur+delay)*1000+200);
+  }
+}
+
+// ════════════════════════════════════════
 // ANIMAÇÃO ÉPICA DE TOMADA DE PÓDIO
 // ════════════════════════════════════════
 let epicActive=false;
 let epicTimeout=null;
 
 const BATTLE_MSGS=[
-  '🔥 DESBANCOU O LÍDER COM FORÇA TOTAL!',
-  '⚡ TOMOU O TRONO À FORÇA BRUTA!',
-  '💥 EXPULSOU O RIVAL DO TOPO!',
-  '🚀 DISPAROU E ASSUMIU O COMANDO!',
-  '⚔️ BATALHOU E VENCEU A DISPUTA!',
-  '🏆 NOVO REI DA ARENA DE VENDAS!',
-  '💪 ARRASOU E DOMINOU O PÓDIO!',
-  '🌟 BRILHOU MAIS QUE TODOS E SUBIU!',
+  '⚔️ DERRUBOU O LÍDER DO TRONO!',
+  '🔥 DOMINOU A ARENA COM FORÇA BRUTA!',
+  '💥 NOCAUTEOU O RIVAL E ASSUMIU O COMANDO!',
+  '⚡ DESTRUIU A CONCORRÊNCIA E SUBIU AO TOPO!',
+  '🏟️ A MULTIDÃO ENLOUQUECEU! NOVO CAMPEÃO!',
+  '👑 O TRONO FOI TOMADO! VIVA O NOVO REI!',
+  '🗡️ GOLPE FATAL! O LÍDER FOI DESTRONADO!',
+  '💪 A ARENA TREMEU! NOVO GLADIADOR NO PÓDIO!',
 ];
 
-const RANK_LABELS=['🏆 1º LUGAR · NOVO CAMPEÃO','🥈 2º LUGAR · SUBIU NA ARENA','🥉 3º LUGAR · ENTROU NO PÓDIO'];
-
-function launchEpicConfetti(){
-  const colors=['#f59e0b','#fbbf24','#10b981','#3b82f6','#ec4899','#8b5cf6','#ef4444','#fff'];
-  const shapes=['3px','50%','0'];
-  for(let i=0;i<80;i++){
-    const el=document.createElement('div');
-    el.className='epic-confetti';
-    const sz=Math.random()*12+6;
-    const x=Math.random()*100;
-    const delay=Math.random()*1.5;
-    const dur=Math.random()*2+1.5;
-    const color=colors[Math.floor(Math.random()*colors.length)];
-    const br=shapes[Math.floor(Math.random()*shapes.length)];
-    el.style.cssText=`width:${sz}px;height:${sz}px;left:${x}vw;top:-20px;background:${color};border-radius:${br};animation-duration:${dur}s;animation-delay:${delay}s;`;
-    document.getElementById('epic-overlay').appendChild(el);
-    setTimeout(()=>el.remove(),(dur+delay)*1000+100);
-  }
-}
+const RANK_LABELS=['👑 1º LUGAR · NOVO CAMPEÃO DA ARENA','⚔️ 2º LUGAR · SUBIU NO RANKING','🛡️ 3º LUGAR · ENTROU NO PÓDIO'];
 
 function showEpicTakeover({winner,loser,rank}){
-  if(epicActive) return;
+  if(epicActive)return;
   epicActive=true;
-  clearInterval(autoInt); // Para o auto-slide durante a animação
+  clearInterval(autoInt);
+
+  // Som + shake imediatos
+  playImpactSound();
+  shakeScreen();
 
   const overlay=document.getElementById('epic-overlay');
 
-  // Preenche os dados
+  // Dados
   document.getElementById('epic-winner-emoji').textContent=getEmoji(winner.nome,winner.squad);
-  document.getElementById('epic-winner-name').textContent=winner.nome.split(' ').slice(0,2).join(' ');
+  document.getElementById('epic-winner-name').textContent=winner.nome.split(' ').slice(0,2).join(' ').toUpperCase();
   document.getElementById('epic-winner-pct').textContent=Math.round(winner.pct)+'%';
   document.getElementById('sc-new-pct').textContent=Math.round(winner.pct)+'%';
-
   document.getElementById('epic-loser-emoji').textContent=getEmoji(loser.nome,loser.squad);
-  document.getElementById('epic-loser-name').textContent=loser.nome.split(' ').slice(0,2).join(' ');
+  document.getElementById('epic-loser-name').textContent=loser.nome.split(' ').slice(0,2).join(' ').toUpperCase();
   document.getElementById('epic-loser-badge').textContent='Era o '+(rank===0?'🥇 1º':(rank===1?'🥈 2º':'🥉 3º'));
   document.getElementById('sc-old-pct').textContent=Math.round(loser.pct)+'%';
-
   document.getElementById('epic-msg').textContent=BATTLE_MSGS[Math.floor(Math.random()*BATTLE_MSGS.length)];
   document.getElementById('epic-rank-badge').textContent=RANK_LABELS[rank]||RANK_LABELS[0];
 
-  // Título por posição
-  const titles=['👑 NOVO LÍDER! 👑','⚔️ SUBIU NO RANKING!','🏅 ENTROU NO PÓDIO!'];
+  const titles=['⚔️ NOVO LÍDER! ⚔️','⚔️ SUBIU NO PÓDIO! ⚔️','⚔️ ENTROU NA BATALHA! ⚔️'];
   document.getElementById('epic-title').textContent=titles[rank]||titles[0];
 
-  // Countdown dots (5 segundos)
+  // Countdown dots
   const cdEl=document.getElementById('epic-countdown');
   cdEl.innerHTML='';
-  const totalSecs=6;
+  const totalSecs=7;
   for(let i=0;i<totalSecs;i++){
     const d=document.createElement('div');d.className='cd-dot';
     if(i===0)d.classList.add('active');
     cdEl.appendChild(d);
   }
 
-  // Força re-animação destruindo e recriando elementos críticos
-  const shockwave=document.getElementById('epic-shockwave');
-  const newSw=shockwave.cloneNode(true);
-  shockwave.parentNode.replaceChild(newSw,shockwave);
-
-  const flash=document.getElementById('epic-flash');
-  const newFlash=flash.cloneNode(true);
-  flash.parentNode.replaceChild(newFlash,flash);
-
-  // Re-anima personagens
+  // Re-trigger animações
   ['epic-winner','epic-loser','epic-winner-emoji','epic-winner-name','epic-winner-pct',
    'epic-loser-name','epic-loser-badge','epic-crown','epic-msg','epic-rank-badge',
-   'epic-title','epic-sub','epic-side-info'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(!el)return;
-    el.style.animation='none';
-    el.offsetHeight; // reflow
-    el.style.animation='';
+   'epic-title','epic-sub','epic-side-info','epic-banner'].forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
+    el.style.animation='none';el.offsetHeight;el.style.animation='';
+  });
+
+  // Recriar shockwaves
+  ['epic-shockwave','epic-shockwave2'].forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
+    const n=el.cloneNode(true);el.parentNode.replaceChild(n,el);
   });
 
   overlay.classList.add('show');
 
-  // Confetti épico após 1s
-  setTimeout(launchEpicConfetti,900);
-  setTimeout(launchEpicConfetti,1600);
-  setTimeout(launchEpicConfetti,2400);
+  // Shake extra no impacto do golpe
+  setTimeout(()=>{shakeScreen();playImpactSound();},1050);
 
-  // Confetti no pódio normal também
-  setTimeout(()=>launchConfetti(window.innerWidth/2,100),1200);
+  // Brasas em ondas
+  setTimeout(launchEpicConfetti,300);
+  setTimeout(launchEpicConfetti,1100);
+  setTimeout(launchEpicConfetti,2000);
+
+  // Confetti normal no pódio
+  setTimeout(()=>launchConfetti(window.innerWidth/2,120),1300);
 
   // Countdown tick
   let tick=0;
@@ -752,15 +837,15 @@ function showEpicTakeover({winner,loser,rank}){
     tick++;
     const dots=cdEl.querySelectorAll('.cd-dot');
     dots.forEach((d,i)=>d.classList.toggle('active',i<(totalSecs-tick)));
-    if(tick>=totalSecs){clearInterval(cdInterval);}
+    if(tick>=totalSecs)clearInterval(cdInterval);
   },1000);
 
-  // Fecha após 7s
+  // Fecha após totalSecs+1s
   epicTimeout=setTimeout(()=>{
     overlay.classList.remove('show');
     epicActive=false;
-    startAuto(); // Retoma o auto-slide
-  },totalSecs*1000+800);
+    startAuto();
+  },(totalSecs+1)*1000);
 }
 
 // ════════════════════════════════════════
