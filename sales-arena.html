@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Sales Arena 🏆</title>
+<style>
+:root{--bg:#0a0e1a;--card:#111827;--border:#1e3a5f;--gold:#f59e0b;--silver:#94a3b8;--bronze:#cd7f32;--green:#10b981;--red:#ef4444;--blue:#3b82f6;--text:#e2e8f0;--muted:#64748b;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;overflow:hidden;height:100vh;}
+header{background:linear-gradient(135deg,#0f172a,#1e1b4b);border-bottom:2px solid var(--border);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+.logo{font-size:22px;font-weight:900;letter-spacing:3px;}.logo span{color:var(--gold);}
+.live{display:flex;align-items:center;gap:8px;background:rgba(16,185,129,.15);border:1px solid var(--green);border-radius:20px;padding:6px 16px;font-size:13px;color:var(--green);}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+.slide{display:none;padding:28px 36px;height:calc(100vh - 60px);overflow:hidden;animation:fadeIn .4s ease;}
+.slide.active{display:flex;flex-direction:column;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.st{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:20px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.st::after{content:'';flex:1;height:1px;background:var(--border);}
+.hero{background:linear-gradient(135deg,#111827,#1e1b4b);border:1px solid var(--border);border-radius:24px;padding:48px 56px;display:flex;justify-content:space-between;align-items:center;flex:1;}
+.hp{font-size:clamp(80px,12vw,130px);font-weight:900;line-height:1;margin:10px 0;}
+.hs{font-size:18px;color:var(--muted);}
+.hbw{background:rgba(255,255,255,.07);border-radius:12px;height:18px;overflow:hidden;margin-top:20px;max-width:600px;}
+.hb{height:100%;border-radius:12px;background:linear-gradient(90deg,#2563eb,#8b5cf6,#ec4899);}
+.hst{display:flex;gap:56px;}
+.sv .v{font-size:clamp(40px,6vw,72px);font-weight:900;text-align:center;}
+.sv .l{font-size:15px;color:var(--muted);text-align:center;margin-top:6px;}
+.pw{display:flex;align-items:flex-end;justify-content:center;gap:40px;flex:1;padding-bottom:20px;}
+.pod{text-align:center;display:flex;flex-direction:column;align-items:center;}
+.pav{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;border:4px solid transparent;margin-bottom:12px;}
+.p1 .pav{width:130px;height:130px;font-size:42px;border-color:var(--gold);background:rgba(245,158,11,.15);color:var(--gold);}
+.p2 .pav{width:100px;height:100px;font-size:32px;border-color:var(--silver);background:rgba(148,163,184,.1);color:var(--silver);}
+.p3 .pav{width:84px;height:84px;font-size:26px;border-color:var(--bronze);background:rgba(205,127,50,.1);color:var(--bronze);}
+.pn{font-weight:700;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.p1 .pn{font-size:22px;}.p2 .pn{font-size:17px;}.p3 .pn{font-size:15px;}
+.pp{font-weight:900;margin-top:6px;}
+.p1 .pp{font-size:36px;color:var(--gold);}.p2 .pp{font-size:28px;color:var(--silver);}.p3 .pp{font-size:22px;color:var(--bronze);}
+.pl{border-radius:10px 10px 0 0;}
+.p1 .pl{height:clamp(100px,15vh,200px);width:150px;background:linear-gradient(180deg,#f59e0b,#b45309);}
+.p2 .pl{height:clamp(70px,11vh,150px);width:120px;background:linear-gradient(180deg,#94a3b8,#475569);}
+.p3 .pl{height:clamp(50px,8vh,100px);width:100px;background:linear-gradient(180deg,#cd7f32,#92400e);}
+.pr{font-size:40px;margin-bottom:10px;}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:24px;flex:1;}
+.sq{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:36px 40px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;}
+.sq::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;}
+.great::before{background:var(--green);}.ok::before{background:var(--gold);}.risk::before{background:var(--red);}
+.sqn{font-size:22px;font-weight:700;}
+.sqp{font-size:clamp(70px,10vw,110px);font-weight:900;line-height:1;margin:10px 0;}
+.great .sqp{color:var(--green);}.ok .sqp{color:var(--gold);}.risk .sqp{color:var(--red);}
+.sqs2{font-size:16px;color:var(--muted);margin-bottom:14px;}
+.pb{background:rgba(255,255,255,.07);border-radius:10px;height:16px;overflow:hidden;}
+.pf{height:100%;border-radius:10px;}
+.great .pf{background:linear-gradient(90deg,#059669,#10b981);}
+.ok .pf{background:linear-gradient(90deg,#d97706,#fbbf24);}
+.risk .pf{background:linear-gradient(90deg,#dc2626,#f87171);}
+.sqst{display:flex;gap:28px;margin-top:16px;font-size:14px;color:var(--muted);}
+.sqst span strong{display:block;font-size:26px;color:var(--text);}
+.selg{display:grid;grid-template-columns:1fr 1fr;gap:12px;flex:1;align-content:start;}
+.sc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:14px;}
+.sc.r1{border-color:var(--gold);background:linear-gradient(135deg,#1a1500,#111827);}
+.sc.r2{border-color:var(--silver);background:linear-gradient(135deg,#0d1117,#111827);}
+.sc.r3{border-color:var(--bronze);background:linear-gradient(135deg,#1a0f00,#111827);}
+.sc.det{border-color:rgba(239,68,68,.4);}
+.rb{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;flex-shrink:0;}
+.si{flex:1;min-width:0;}
+.sn{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ss{font-size:12px;color:var(--muted);margin-bottom:6px;}
+.sbw{background:rgba(255,255,255,.07);border-radius:6px;height:7px;overflow:hidden;}
+.sb{height:100%;border-radius:6px;}
+.sr{text-align:right;flex-shrink:0;}
+.spct{font-size:24px;font-weight:900;}
+.sval{font-size:12px;color:var(--muted);margin-top:2px;}
+.db{background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(239,68,68,.05));border:1px solid rgba(239,68,68,.3);border-radius:14px;padding:14px 22px;margin-bottom:16px;flex-shrink:0;}
+.db h3{color:var(--red);font-size:15px;margin-bottom:3px;}.db p{font-size:13px;color:var(--muted);}
+#prog{position:fixed;bottom:0;left:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--purple),var(--gold));}
+#dots{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:100;}
+.di{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .3s;cursor:pointer;}
+.di.a{background:var(--blue);width:24px;border-radius:4px;}
+.green{color:var(--green);}.red{color:var(--red);}.gold{color:var(--gold);}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">SALES <span>ARENA</span></div>
+  <div class="live"><div class="dot"></div> AO VIVO</div>
+  <div style="display:flex;align-items:center;gap:20px">
+    <div id="slide-label" style="font-size:13px;color:var(--muted);font-weight:600"></div>
+    <div id="upd" style="font-size:12px;color:var(--muted);text-align:right;line-height:1.5"></div>
+  </div>
+</header>
+
+<div id="s0" class="slide active"><div class="st">⚡ Meta Geral do Dia</div><div class="hero" id="hero"></div></div>
+<div id="s1" class="slide"><div class="st">🏆 Pódio do Dia</div><div class="pw" id="pod"></div></div>
+<div id="s2" class="slide"><div class="st">⚔️ Meta por Squad</div><div class="sg" id="sqs"></div></div>
+<div id="s3" class="slide"><div class="st">🎮 Ranking de Vendedores</div><div class="selg" id="sel"></div></div>
+<div id="s4" class="slide">
+  <div class="st">🚨 Detratores — Abaixo de 50%</div>
+  <div class="db"><h3>⚠️ Atenção — Zona de Risco</h3><p>Vendedores com atingimento abaixo de 50% da meta do dia.</p></div>
+  <div class="selg" id="det"></div>
+</div>
+
+<div id="prog" style="width:0%"></div>
+<div id="dots"></div>
+
+<script>
+const ID = '1RwmpP7OB-s9e9Of7YhktDD--Q9EVq0oPlq5BSTe0Ib8';
+const DUR = 12000;
+const LABELS = ['⚡ Meta Geral','🏆 Pódio','⚔️ Squads','🎮 Ranking','🚨 Detratores'];
+
+const dotsEl = document.getElementById('dots');
+for(let i=0;i<5;i++){const d=document.createElement('div');d.className='di'+(i===0?' a':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);}
+
+let cur=0, autoInt;
+
+function goTo(n){
+  document.getElementById('s'+cur).className='slide';
+  document.querySelectorAll('.di')[cur].className='di';
+  cur=((n%5)+5)%5;
+  document.getElementById('s'+cur).className='slide active';
+  document.querySelectorAll('.di')[cur].className='di a';
+  document.getElementById('slide-label').textContent=LABELS[cur]+' ('+(cur+1)+'/5)';
+  const bar=document.getElementById('prog');
+  bar.style.transition='none';bar.style.width='0%';
+  setTimeout(()=>{bar.style.transition='width '+DUR+'ms linear';bar.style.width='100%';},60);
+}
+
+function startAuto(){clearInterval(autoInt);autoInt=setInterval(()=>goTo(cur+1),DUR);}
+document.body.addEventListener('click',()=>{goTo(cur+1);startAuto();});
+goTo(0);startAuto();
+
+const num=v=>{
+  if(!v)return 0;
+  let s=String(v).replace(/[^0-9,.-]/g,'');
+  if(s.includes('.')&&s.includes(','))s=s.replace(/\./g,'').replace(',','.');
+  else if(s.includes(','))s=s.replace(',','.');
+  return parseFloat(s)||0;
+};
+const f=v=>v>=1000?'R$'+(v/1000).toFixed(1)+'k':'R$'+Math.round(v);
+const ini=n=>(n||'?').split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
+const cls=p=>p>=80?'great':p>=50?'ok':'risk';
+const col=p=>p>=80?'var(--green)':p>=50?'var(--gold)':'var(--red)';
+function sp(l){const v=[];let c='',q=false;for(const ch of l){if(ch==='"'){q=!q;continue;}if(ch===','&&!q){v.push(c.trim());c='';}else c+=ch;}v.push(c.trim());return v;}
+
+async function load(){
+  try{
+    const csv=g=>fetch('https://docs.google.com/spreadsheets/d/'+ID+'/gviz/tq?tqx=out:csv&gid='+g).then(r=>r.text());
+    const [d,m]=await Promise.all([csv('1827463777'),csv('250882911')]);
+
+    const sqM={};
+    m.trim().split('\n').slice(2).forEach(l=>{const v=sp(l);if(v[0]&&/^[12]$/.test(v[0])&&(v[3]||'').length>2)sqM[v[3].trim().toUpperCase()]='Squad '+v[0];});
+
+    const L=d.trim().split('\n'),h=sp(L[0]);
+    const rows=L.slice(1).map(l=>{const v=sp(l);const o={};h.forEach((k,i)=>o[k]=(v[i]||''));return o;}).filter(r=>Object.values(r).some(v=>v));
+
+    const sel=rows
+      .filter(r=>{const n=r['Vendedor']||'';return n&&!/total geral|vendedor/i.test(n);})
+      .map(r=>{
+        const nome=(r['Vendedor']||'').trim();
+        const mt=num(r['Meta do Dia']),rl=num(r['Vendas Realizadas']);
+        let pct=num(r['Status (%)']);if(!pct&&mt>0)pct=rl/mt*100;
+        return{nome,meta:mt,real:rl,pct,falta:num(r['Falta para Meta']),status:r['Status Atual']||'',squad:sqM[nome.toUpperCase()]||'Squad ?'};
+      }).filter(s=>s.nome&&s.meta>0).sort((a,b)=>b.pct-a.pct);
+
+    if(!sel.length)return;
+    const tM=sel.reduce((s,v)=>s+v.meta,0),tR=sel.reduce((s,v)=>s+v.real,0),tP=tM>0?tR/tM*100:0;
+    const sqd={};sel.forEach(s=>{if(!sqd[s.squad])sqd[s.squad]={nome:s.squad,meta:0,real:0,mm:[]};sqd[s.squad].meta+=s.meta;sqd[s.squad].real+=s.real;sqd[s.squad].mm.push(s);});
+    const squads=Object.values(sqd).map(s=>({...s,pct:s.meta>0?s.real/s.meta*100:0})).sort((a,b)=>b.pct-a.pct);
+    const p=Math.round(tP),vc=sel.filter(s=>s.pct>=80).length,rc=sel.filter(s=>s.pct<50).length;
+
+    document.getElementById('hero').innerHTML=`
+      <div>
+        <div style="font-size:14px;color:var(--muted);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">META GERAL DO DIA</div>
+        <div class="hp" style="color:${col(p)}">${p}%</div>
+        <div class="hs">${f(tR)} realizados de ${f(tM)} estimados</div>
+        <div class="hbw"><div class="hb" style="width:${Math.min(p,100)}%"></div></div>
+      </div>
+      <div class="hst">
+        <div class="sv"><div class="v green">${vc}</div><div class="l">No Verde</div></div>
+        <div class="sv"><div class="v gold">${sel.length-vc-rc}</div><div class="l">Em Alerta</div></div>
+        <div class="sv"><div class="v red">${rc}</div><div class="l">Em Risco</div></div>
+      </div>`;
+
+    const top=sel.slice(0,3),ord=top.length>=2?[top[1],top[0],top[2]].filter(Boolean):top;
+    const pcs=['pod p2','pod p1','pod p3'];
+    document.getElementById('pod').innerHTML=ord.map((s,i)=>`
+      <div class="${pcs[i]}">
+        <div class="pr">${['🥈','🥇','🥉'][i]}</div>
+        <div class="pav">${ini(s.nome)}</div>
+        <div class="pn">${s.nome}</div>
+        <div class="pp">${Math.round(s.pct)}%</div>
+        <div class="pl" style="margin-top:16px"></div>
+      </div>`).join('');
+
+    document.getElementById('sqs').innerHTML=squads.map(sq=>{const sp2=Math.round(sq.pct);return `
+      <div class="sq ${cls(sq.pct)}">
+        <div>
+          <div class="sqn">${sq.nome}</div>
+          <div class="sqp">${sp2}%</div>
+          <div class="sqs2">${f(sq.real)} realizados de ${f(sq.meta)}</div>
+        </div>
+        <div>
+          <div class="pb"><div class="pf" style="width:${Math.min(sp2,100)}%"></div></div>
+          <div class="sqst">
+            <span><strong>${sq.mm.length}</strong>vendedores</span>
+            <span><strong style="color:var(--green)">${sq.mm.filter(m=>m.pct>=80).length}</strong>no verde</span>
+            <span><strong style="color:var(--red)">${sq.mm.filter(m=>m.pct<50).length}</strong>em risco</span>
+          </div>
+        </div>
+      </div>`;}).join('');
+
+    const rks=['r1','r2','r3'],mds=['🥇','🥈','🥉'];
+    document.getElementById('sel').innerHTML=sel.slice(0,10).map((s,i)=>{const sp2=Math.round(s.pct);return `
+      <div class="sc ${i<3?rks[i]:''}">
+        <div class="rb" style="background:${i<3?['var(--gold)','var(--silver)','var(--bronze)'][i]:'#1a2235'};color:${i<3?'#000':'var(--muted)'};">${i<3?mds[i]:i+1}</div>
+        <div class="si">
+          <div class="sn">${s.nome}</div>
+          <div class="ss">${s.squad} · ${s.status}</div>
+          <div class="sbw"><div class="sb" style="width:${Math.min(sp2,100)}%;background:${col(s.pct)}"></div></div>
+        </div>
+        <div class="sr"><div class="spct" style="color:${col(s.pct)}">${sp2}%</div><div class="sval">${f(s.real)} / ${f(s.meta)}</div></div>
+      </div>`;}).join('');
+
+    const dt=sel.filter(s=>s.pct<50);
+    document.getElementById('det').innerHTML=dt.length?dt.map(s=>{const sp2=Math.round(s.pct);return `
+      <div class="sc det">
+        <div class="rb" style="background:rgba(239,68,68,.2);color:var(--red);border:1px solid var(--red)">⚠️</div>
+        <div class="si">
+          <div class="sn">${s.nome}</div>
+          <div class="ss">${s.squad} · Falta ${f(s.falta)}</div>
+          <div class="sbw"><div class="sb" style="width:${Math.min(sp2,100)}%;background:var(--red)"></div></div>
+        </div>
+        <div class="sr"><div class="spct" style="color:var(--red)">${sp2}%</div><div class="sval">${f(s.real)} / ${f(s.meta)}</div></div>
+      </div>`;}).join('')
+    :'<div style="color:var(--green);font-size:18px;padding:20px;grid-column:span 2">🎉 Nenhum detrator! Todos acima de 50%.</div>';
+
+    document.getElementById('upd').innerHTML='Atualizado<br>'+new Date().toLocaleTimeString('pt-BR');
+  }catch(e){console.error(e);}
+}
+
+load();
+setInterval(load,3*60*1000);
+</script>
+</body>
+</html>
