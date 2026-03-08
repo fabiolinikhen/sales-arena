@@ -9,12 +9,10 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;}
 
-/* PARTÍCULAS DE FUNDO */
 #particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
 .particle{position:absolute;border-radius:50%;animation:float linear infinite;opacity:.15;}
 @keyframes float{0%{transform:translateY(100vh) scale(0)}100%{transform:translateY(-10vh) scale(1)}}
 
-/* HEADER */
 header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1e1b4b);border-bottom:2px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px;box-shadow:0 4px 30px rgba(0,0,0,.5);}
 .logo{font-size:24px;font-weight:900;letter-spacing:4px;}.logo span{color:var(--gold);text-shadow:0 0 20px rgba(245,158,11,.5);}
 .live{display:flex;align-items:center;gap:8px;background:rgba(16,185,129,.15);border:1px solid var(--green);border-radius:20px;padding:6px 18px;font-size:13px;color:var(--green);font-weight:700;}
@@ -24,14 +22,13 @@ header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1
 #slide-label{font-size:13px;color:var(--muted);font-weight:700;letter-spacing:1px;}
 #upd{font-size:11px;color:var(--muted);text-align:right;line-height:1.5;}
 
-/* SLIDES */
 .slide{display:none;padding:20px 32px;height:calc(100vh - 64px);flex-direction:column;position:relative;z-index:5;}
 .slide.active{display:flex;animation:slideIn .5s cubic-bezier(.25,.8,.25,1);}
 @keyframes slideIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
 .st{font-size:11px;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
 .st::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
 
-/* ═══ SLIDE 0 — HERO ═══ */
+/* HERO */
 .hero{background:linear-gradient(135deg,#0d1424,#111827);border:1px solid var(--border);border-radius:24px;padding:40px 56px;display:flex;justify-content:space-between;align-items:center;flex:1;position:relative;overflow:hidden;box-shadow:inset 0 0 80px rgba(59,130,246,.05);}
 .hero::before{content:'';position:absolute;top:-50%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(139,92,246,.08),transparent 70%);pointer-events:none;}
 .hero-left{flex:1;}
@@ -41,24 +38,20 @@ header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1
 .hero-bar-wrap{background:rgba(255,255,255,.06);border-radius:14px;height:20px;overflow:hidden;margin-top:20px;max-width:640px;border:1px solid var(--border);}
 .hero-bar{height:100%;border-radius:14px;background:linear-gradient(90deg,#2563eb,#8b5cf6,#ec4899);transition:width 1.5s ease;position:relative;}
 .hero-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:shine 2s infinite;}
-@keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)} }
+@keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
 .hero-right{display:flex;gap:48px;flex-shrink:0;}
 .hero-stat{text-align:center;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:20px;padding:24px 32px;}
 .hero-stat .val{font-size:clamp(48px,6vw,80px);font-weight:900;line-height:1;}
 .hero-stat .lbl{font-size:14px;color:var(--muted);margin-top:8px;font-weight:600;}
-
-/* MINI RANKING NO HERO */
 .hero-mini{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;}
 .mini-chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:13px;transition:all .3s;}
 .mini-chip .mc-rank{font-weight:800;font-size:15px;width:22px;}
 .mini-chip .mc-name{font-weight:600;color:var(--text);}
 .mini-chip .mc-pct{font-weight:800;margin-left:auto;}
 
-/* ═══ SLIDE 1 — PÓDIO ANIMADO ═══ */
+/* PÓDIO */
 .podium-arena{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;}
 .podium-stage{display:flex;align-items:flex-end;justify-content:center;gap:20px;width:100%;}
-
-/* PERSONAGEM */
 .character-wrap{display:flex;flex-direction:column;align-items:center;position:relative;}
 .character{font-size:clamp(50px,7vw,80px);animation:idle 3s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(255,255,255,.2));cursor:default;transition:all .5s;}
 .character.entering{animation:enterPodium .8s cubic-bezier(.34,1.56,.64,1) forwards,idle 3s 0.8s ease-in-out infinite;}
@@ -66,28 +59,21 @@ header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1
 @keyframes idle{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-8px) rotate(2deg)}}
 @keyframes enterPodium{0%{transform:translateX(120px) scale(.5) rotate(20deg);opacity:0}60%{transform:translateX(-10px) scale(1.1) rotate(-5deg);opacity:1}100%{transform:translateX(0) scale(1) rotate(0);opacity:1}}
 @keyframes kick{0%{transform:rotate(0)}25%{transform:rotate(-15deg) translateX(-5px)}75%{transform:rotate(15deg) translateX(5px)}100%{transform:rotate(0)}}
-
 .char-name{font-weight:800;font-size:clamp(13px,1.5vw,18px);margin-top:6px;max-width:160px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .char-pct{font-weight:900;font-size:clamp(20px,3vw,32px);margin-top:2px;}
 .char-squad{font-size:11px;color:var(--muted);margin-top:2px;}
-
-/* PLATAFORMAS */
 .plinth-wrap{display:flex;flex-direction:column;align-items:center;}
 .plinth{border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;transition:height .8s cubic-bezier(.34,1.2,.64,1);}
 .rank-1 .plinth{width:clamp(120px,16vw,200px);height:clamp(100px,18vh,220px);background:linear-gradient(180deg,#fbbf24,#b45309);box-shadow:0 0 40px rgba(245,158,11,.4);}
 .rank-2 .plinth{width:clamp(100px,13vw,170px);height:clamp(70px,13vh,160px);background:linear-gradient(180deg,#cbd5e1,#475569);box-shadow:0 0 30px rgba(148,163,184,.3);}
 .rank-3 .plinth{width:clamp(90px,11vw,150px);height:clamp(50px,10vh,120px);background:linear-gradient(180deg,#d97706,#92400e);box-shadow:0 0 25px rgba(205,127,50,.3);}
 .plinth-label{font-size:clamp(11px,1.2vw,14px);color:var(--muted);margin-top:8px;font-weight:700;letter-spacing:1px;}
-
-/* CONFETTI */
 .confetti-piece{position:absolute;width:8px;height:8px;border-radius:2px;animation:confettiFall linear forwards;pointer-events:none;}
 @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(300px) rotate(720deg);opacity:0}}
-
-/* HISTÓRICO DE MUDANÇAS */
 .podium-history{margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
 .hist-chip{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;}
 
-/* ═══ SLIDE 2 — SQUADS ═══ */
+/* SQUADS */
 .sg{display:grid;grid-template-columns:1fr 1fr;gap:20px;flex:1;}
 .sq-card{background:linear-gradient(135deg,#0d1424,#111827);border:1px solid var(--border);border-radius:24px;padding:32px 36px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;transition:all .3s;}
 .sq-card::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;border-radius:24px 24px 0 0;}
@@ -117,7 +103,6 @@ header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1
 .sq-stat:not(:last-child){border-right:1px solid var(--border);}
 .sq-stat .sv{font-size:28px;font-weight:900;}
 .sq-stat .sl{font-size:11px;color:var(--muted);margin-top:4px;font-weight:600;letter-spacing:1px;text-transform:uppercase;}
-/* MINI LISTA DE VENDEDORES NO SQUAD */
 .sq-sellers{margin-top:14px;display:flex;flex-direction:column;gap:6px;}
 .sq-seller{display:flex;align-items:center;gap:10px;font-size:13px;background:rgba(255,255,255,.03);border-radius:8px;padding:6px 12px;}
 .sq-seller .ssn{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -125,7 +110,7 @@ header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1
 .sq-seller .ssb{flex:1;height:5px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;max-width:80px;}
 .sq-seller .ssf{height:100%;border-radius:4px;}
 
-/* ═══ SLIDE 3 — RANKING ═══ */
+/* RANKING */
 .ranking-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;flex:1;align-content:start;}
 .rank-card{background:linear-gradient(135deg,#0d1424,#111827);border:1px solid var(--border);border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:14px;transition:all .3s;position:relative;overflow:hidden;}
 .rank-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:14px 0 0 14px;}
@@ -149,7 +134,7 @@ header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1
 .status-gold{background:rgba(245,158,11,.15);color:var(--gold);}
 .status-red{background:rgba(239,68,68,.15);color:var(--red);}
 
-/* ═══ SLIDE 4 — DETRATORES ═══ */
+/* DETRATORES */
 .det-header{background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(239,68,68,.04));border:1px solid rgba(239,68,68,.3);border-radius:16px;padding:16px 24px;margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-shrink:0;}
 .det-icon{font-size:36px;}
 .det-title{font-size:18px;font-weight:800;color:var(--red);}
@@ -170,19 +155,279 @@ header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1
 .det-pct{font-size:26px;font-weight:900;color:var(--red);}
 .det-falta{font-size:11px;color:var(--muted);margin-top:2px;}
 
-/* PROGRESS BAR + DOTS */
-#prog{position:fixed;bottom:0;left:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--purple),var(--gold));z-index:100;transition:none;}
+#prog{position:fixed;bottom:0;left:0;height:4px;background:linear-gradient(90deg,var(--blue),#8b5cf6,var(--gold));z-index:100;transition:none;}
 #dots{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:100;}
 .di{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .4s;cursor:pointer;}
 .di.a{background:var(--blue);width:28px;border-radius:4px;box-shadow:0 0 10px var(--blue);}
 
-/* CORES UTILITÁRIAS */
-.c-green{color:var(--green);} .c-gold{color:var(--gold);} .c-red{color:var(--red);}
+.c-green{color:var(--green);}.c-gold{color:var(--gold);}.c-red{color:var(--red);}
+
+/* ══════════════════════════════════════════
+   OVERLAY ÉPICO — TOMADA DE PÓDIO
+══════════════════════════════════════════ */
+#epic-overlay{
+  position:fixed;inset:0;z-index:9999;
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  pointer-events:none;
+  overflow:hidden;
+}
+#epic-overlay.show{display:flex;}
+
+/* Flash de entrada */
+#epic-flash{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,rgba(245,158,11,.9) 0%,rgba(245,158,11,.4) 30%,transparent 70%);
+  animation:flashIn .4s ease-out forwards;
+}
+@keyframes flashIn{0%{opacity:0;transform:scale(.5)}30%{opacity:1;transform:scale(1.2)}100%{opacity:0;transform:scale(1)}}
+
+/* Fundo com brilho */
+#epic-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,0,0,.92),rgba(10,14,26,.96));
+  animation:bgIn .3s ease-out forwards;
+}
+@keyframes bgIn{from{opacity:0}to{opacity:1}}
+
+/* Raios de luz saindo do centro */
+#epic-rays{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.ray{
+  position:absolute;
+  width:4px;height:55vh;
+  background:linear-gradient(to top,transparent,rgba(245,158,11,.6),transparent);
+  transform-origin:bottom center;
+  top:50%;left:50%;
+  margin-left:-2px;margin-top:-55vh;
+  border-radius:4px;
+  animation:rayRotate 8s linear infinite;
+}
+@keyframes rayRotate{from{opacity:.6}to{opacity:.6;transform:rotate(360deg)}}
+
+/* Título ÉPICO */
+#epic-title{
+  position:relative;z-index:2;
+  font-size:clamp(28px,5vw,56px);font-weight:900;letter-spacing:6px;text-transform:uppercase;
+  color:#fff;text-shadow:0 0 40px var(--gold),0 0 80px var(--gold);
+  text-align:center;
+  animation:titleBounce .6s cubic-bezier(.34,1.8,.64,1) .2s both;
+}
+@keyframes titleBounce{from{opacity:0;transform:scale(.3) translateY(-40px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+/* Sub título */
+#epic-sub{
+  position:relative;z-index:2;
+  font-size:clamp(14px,2vw,22px);color:var(--gold);font-weight:700;letter-spacing:3px;
+  text-align:center;margin-top:8px;
+  animation:titleBounce .6s cubic-bezier(.34,1.8,.64,1) .35s both;
+}
+
+/* ARENA DE BATALHA */
+#epic-arena{
+  position:relative;z-index:2;
+  display:flex;align-items:flex-end;justify-content:center;gap:0;
+  margin:24px 0;
+  width:min(700px,90vw);
+  height:260px;
+}
+
+/* Personagem CAMPEÃO (vem da direita) */
+#epic-winner{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  animation:winnerEnter .7s cubic-bezier(.34,1.4,.64,1) .5s both;
+  position:relative;z-index:3;
+  filter:drop-shadow(0 0 30px rgba(245,158,11,.8));
+}
+@keyframes winnerEnter{
+  0%{transform:translateX(300px) scale(.5) rotate(30deg);opacity:0}
+  60%{transform:translateX(-20px) scale(1.15) rotate(-5deg);opacity:1}
+  100%{transform:translateX(0) scale(1) rotate(0);opacity:1}
+}
+#epic-winner-emoji{
+  font-size:clamp(80px,12vw,130px);
+  animation:winnerPunch .8s cubic-bezier(.34,1,.64,1) 1.1s both,winnerIdle 2s 2s ease-in-out infinite;
+}
+@keyframes winnerPunch{
+  0%{transform:rotate(0) scale(1)}
+  30%{transform:rotate(-20deg) scale(1.3) translateX(-30px)}
+  60%{transform:rotate(25deg) scale(1.1) translateX(10px)}
+  100%{transform:rotate(0) scale(1)}
+}
+@keyframes winnerIdle{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-12px) rotate(3deg)}}
+#epic-winner-name{
+  font-size:clamp(16px,2.5vw,28px);font-weight:900;color:#fff;
+  text-shadow:0 0 20px var(--gold);text-align:center;
+  animation:fadeUp .4s ease .9s both;
+}
+#epic-winner-pct{
+  font-size:clamp(24px,4vw,48px);font-weight:900;color:var(--gold);
+  text-shadow:0 0 30px var(--gold);
+  animation:fadeUp .4s ease 1s both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* VS / CROWN */
+#epic-crown{
+  position:relative;z-index:4;
+  font-size:clamp(36px,6vw,72px);
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding-bottom:20px;
+  margin:0 8px;
+  animation:crownDrop .5s cubic-bezier(.34,1.6,.64,1) 1.2s both;
+}
+@keyframes crownDrop{from{opacity:0;transform:translateY(-60px) scale(.5)}to{opacity:1;transform:translateY(0) scale(1)}}
+.crown-emoji{font-size:clamp(36px,6vw,64px);filter:drop-shadow(0 0 20px rgba(245,158,11,1));animation:crownFloat 1.5s ease-in-out 1.7s infinite;}
+@keyframes crownFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-10px) rotate(5deg)}}
+.vs-txt{font-size:clamp(10px,1.5vw,16px);font-weight:900;letter-spacing:4px;color:var(--red);margin-bottom:4px;}
+
+/* Personagem DERRUBADO */
+#epic-loser{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  position:relative;z-index:2;
+  animation:loserExit .8s cubic-bezier(.34,1,.64,1) 1.1s both;
+}
+@keyframes loserExit{
+  0%{transform:translateX(0) rotate(0) scale(1);opacity:1}
+  40%{transform:translateX(80px) rotate(40deg) scale(.8);opacity:.6}
+  100%{transform:translateX(220px) rotate(90deg) scale(.5);opacity:0}
+}
+#epic-loser-emoji{font-size:clamp(60px,9vw,100px);filter:grayscale(1);opacity:.7;}
+#epic-loser-name{
+  font-size:clamp(12px,1.8vw,20px);font-weight:700;color:var(--muted);text-align:center;
+  animation:fadeUp .4s ease .6s both;
+}
+#epic-loser-badge{
+  font-size:clamp(10px,1.4vw,16px);color:var(--silver);
+  background:rgba(255,255,255,.06);border:1px solid var(--border);
+  border-radius:8px;padding:4px 12px;
+  animation:fadeUp .4s ease .65s both;
+}
+
+/* Mensagem de batalha */
+#epic-msg{
+  position:relative;z-index:2;
+  font-size:clamp(14px,2.2vw,26px);font-weight:800;
+  color:#fff;text-align:center;letter-spacing:2px;
+  text-shadow:0 0 20px rgba(245,158,11,.5);
+  padding:14px 32px;
+  background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(139,92,246,.15));
+  border:1px solid rgba(245,158,11,.4);border-radius:20px;
+  animation:msgPop .5s cubic-bezier(.34,1.8,.64,1) 1.6s both;
+  max-width:80vw;
+}
+@keyframes msgPop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+
+/* Rank badge */
+#epic-rank-badge{
+  position:relative;z-index:2;
+  margin-top:12px;
+  font-size:clamp(12px,1.6vw,20px);font-weight:700;letter-spacing:2px;
+  color:var(--muted);text-align:center;
+  animation:fadeUp .4s ease 1.9s both;
+}
+
+/* Partículas de confetti épico */
+.epic-confetti{
+  position:absolute;border-radius:3px;pointer-events:none;
+  animation:epicConfettiFall linear forwards;
+  z-index:3;
+}
+@keyframes epicConfettiFall{
+  0%{opacity:1;transform:translateY(0) rotate(0deg) scale(1)}
+  100%{opacity:0;transform:translateY(80vh) rotate(720deg) scale(.3)}
+}
+
+/* Shockwave ring */
+#epic-shockwave{
+  position:absolute;top:50%;left:50%;
+  width:20px;height:20px;border-radius:50%;
+  border:4px solid rgba(245,158,11,.8);
+  transform:translate(-50%,-50%);
+  animation:shockwave 1s ease-out 1s forwards;
+  z-index:2;
+}
+@keyframes shockwave{
+  0%{width:20px;height:20px;opacity:1;border-width:8px}
+  100%{width:800px;height:800px;opacity:0;border-width:1px}
+}
+
+/* Contagem regressiva */
+#epic-countdown{
+  position:absolute;bottom:32px;
+  display:flex;gap:6px;z-index:5;
+  animation:fadeUp .4s ease 2s both;
+}
+.cd-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3);transition:background .3s;}
+.cd-dot.active{background:var(--gold);}
+
+/* Tela de "quem foi derrubado" — lateral */
+#epic-side-info{
+  position:absolute;right:5vw;top:50%;transform:translateY(-50%);
+  z-index:3;
+  display:flex;flex-direction:column;gap:12px;
+  animation:sideSlide .5s ease .8s both;
+}
+@keyframes sideSlide{from{opacity:0;transform:translateY(-50%) translateX(40px)}to{opacity:1;transform:translateY(-50%) translateX(0)}}
+.side-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:16px;padding:14px 20px;text-align:center;}
+.side-card .sc-lbl{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+.side-card .sc-val{font-size:24px;font-weight:900;margin-top:4px;}
 </style>
 </head>
 <body>
 
 <div id="particles"></div>
+
+<!-- ═══════════════ OVERLAY ÉPICO ═══════════════ -->
+<div id="epic-overlay">
+  <div id="epic-bg"></div>
+  <div id="epic-flash"></div>
+  <div id="epic-rays"></div>
+  <div id="epic-shockwave"></div>
+
+  <div id="epic-title">👑 NOVO LÍDER! 👑</div>
+  <div id="epic-sub">TOMADA DE PÓDIO</div>
+
+  <div id="epic-arena">
+    <!-- Perdedor (lado esquerdo, sendo empurrado) -->
+    <div id="epic-loser">
+      <div id="epic-loser-emoji">🥷</div>
+      <div id="epic-loser-name">Fulano</div>
+      <div id="epic-loser-badge">Desbancado do 🥇</div>
+    </div>
+
+    <!-- VS / Crown no centro -->
+    <div id="epic-crown">
+      <div class="crown-emoji">💥</div>
+      <div class="vs-txt">VS</div>
+    </div>
+
+    <!-- Vencedor (lado direito, empurrando) -->
+    <div id="epic-winner">
+      <div id="epic-winner-emoji">🦸</div>
+      <div id="epic-winner-name">Ciclano</div>
+      <div id="epic-winner-pct">99%</div>
+    </div>
+  </div>
+
+  <div id="epic-msg">🔥 DESBANCOU O LÍDER COM FORÇA TOTAL!</div>
+  <div id="epic-rank-badge">🏆 1º LUGAR · NOVO CAMPEÃO DA ARENA</div>
+
+  <div id="epic-side-info">
+    <div class="side-card">
+      <div class="sc-lbl">⚡ Novo Líder</div>
+      <div class="sc-val" id="sc-new-pct" style="color:var(--gold)">—</div>
+    </div>
+    <div class="side-card">
+      <div class="sc-lbl">💀 Desbancado</div>
+      <div class="sc-val" id="sc-old-pct" style="color:var(--muted)">—</div>
+    </div>
+  </div>
+
+  <div id="epic-countdown"></div>
+</div>
 
 <header>
   <div class="logo">SALES <span>ARENA</span></div>
@@ -248,30 +493,42 @@ header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1
 <div id="dots"></div>
 
 <script>
-const ID = '1RwmpP7OB-s9e9Of7YhktDD--Q9EVq0oPlq5BSTe0Ib8';
-const DUR = 14000;
-const LABELS = ['⚡ Meta Geral','🏆 Pódio','⚔️ Squads','🎮 Ranking','🚨 Detratores'];
-const EMOJIS_1 = ['🦸','🥷','🧙','🦊','🐉','⚡','🔥','💎','🚀','🦁'];
-const EMOJIS_2 = ['🏋️','🤺','🎯','🦅','🐺','💫','⚔️','🛡️','🎪','🌟'];
+const ID='1RwmpP7OB-s9e9Of7YhktDD--Q9EVq0oPlq5BSTe0Ib8';
+const DUR=14000;
+const LABELS=['⚡ Meta Geral','🏆 Pódio','⚔️ Squads','🎮 Ranking','🚨 Detratores'];
+const EMOJIS_1=['🦸','🥷','🧙','🦊','🐉','⚡','🔥','💎','🚀','🦁'];
+const EMOJIS_2=['🏋️','🤺','🎯','🦅','🐺','💫','⚔️','🛡️','🎪','🌟'];
 
 // Partículas de fundo
 (()=>{
-  const c = document.getElementById('particles');
-  const colors = ['#3b82f6','#8b5cf6','#f59e0b','#10b981','#ec4899'];
+  const c=document.getElementById('particles');
+  const colors=['#3b82f6','#8b5cf6','#f59e0b','#10b981','#ec4899'];
   for(let i=0;i<25;i++){
-    const p = document.createElement('div');
-    p.className = 'particle';
-    const size = Math.random()*6+3;
-    p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*20+15}s;animation-delay:${Math.random()*15}s;`;
+    const p=document.createElement('div');p.className='particle';
+    const sz=Math.random()*6+3;
+    p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*20+15}s;animation-delay:${Math.random()*15}s;`;
     c.appendChild(p);
   }
 })();
 
+// Raios de luz épicos
+(()=>{
+  const r=document.getElementById('epic-rays');
+  for(let i=0;i<12;i++){
+    const ray=document.createElement('div');
+    ray.className='ray';
+    ray.style.transform=`rotate(${i*30}deg)`;
+    ray.style.animationDuration=`${8+i*0.5}s`;
+    ray.style.animationDelay=`${i*0.2}s`;
+    r.appendChild(ray);
+  }
+})();
+
 // DOTS
-const dotsEl = document.getElementById('dots');
+const dotsEl=document.getElementById('dots');
 for(let i=0;i<5;i++){const d=document.createElement('div');d.className='di'+(i===0?' a':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);}
 
-let cur=0, autoInt;
+let cur=0,autoInt;
 function goTo(n){
   document.getElementById('s'+cur).className='slide';
   document.querySelectorAll('.di')[cur].className='di';
@@ -284,7 +541,7 @@ function goTo(n){
   setTimeout(()=>{bar.style.transition='width '+DUR+'ms linear';bar.style.width='100%';},60);
 }
 function startAuto(){clearInterval(autoInt);autoInt=setInterval(()=>goTo(cur+1),DUR);}
-document.body.addEventListener('click',e=>{if(!e.target.classList.contains('di')){goTo(cur+1);startAuto();}});
+document.body.addEventListener('click',e=>{if(!e.target.classList.contains('di')&&!epicActive){goTo(cur+1);startAuto();}});
 goTo(0);startAuto();
 
 // UTILS
@@ -297,63 +554,187 @@ const tcls=p=>p>=80?'status-green':p>=50?'status-gold':'status-red';
 const tlbl=p=>p>=80?'✅ Meta Batida':p>=50?'⚠️ Em Alerta':'🚨 Em Risco';
 function sp(l){const v=[];let c='',q=false;for(const ch of l){if(ch==='"'){q=!q;continue;}if(ch===','&&!q){v.push(c.trim());c='';}else c+=ch;}v.push(c.trim());return v;}
 
-// Emoji fixo por nome
-const emojiMap = {};
-function getEmoji(nome, squad){
+const emojiMap={};
+function getEmoji(nome,squad){
   if(!emojiMap[nome]){
-    const pool = (squad||'').includes('2') ? EMOJIS_2 : EMOJIS_1;
-    emojiMap[nome] = pool[Object.keys(emojiMap).length % pool.length];
+    const pool=(squad||'').includes('2')?EMOJIS_2:EMOJIS_1;
+    emojiMap[nome]=pool[Object.keys(emojiMap).length%pool.length];
   }
   return emojiMap[nome];
 }
 
-// CONFETTI
-function launchConfetti(x, y){
-  const colors = ['#f59e0b','#10b981','#3b82f6','#ec4899','#8b5cf6','#fbbf24'];
+// CONFETTI normal
+function launchConfetti(x,y){
+  const colors=['#f59e0b','#10b981','#3b82f6','#ec4899','#8b5cf6','#fbbf24'];
   for(let i=0;i<30;i++){
-    const el = document.createElement('div');
-    el.className = 'confetti-piece';
-    el.style.cssText = `left:${x+Math.random()*100-50}px;top:${y}px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*1+0.8}s;animation-delay:${Math.random()*0.3}s;transform:rotate(${Math.random()*360}deg);`;
-    document.body.appendChild(el);
-    setTimeout(()=>el.remove(), 2000);
+    const el=document.createElement('div');el.className='confetti-piece';
+    el.style.cssText=`left:${x+Math.random()*100-50}px;top:${y}px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*1+0.8}s;animation-delay:${Math.random()*0.3}s;transform:rotate(${Math.random()*360}deg);`;
+    document.body.appendChild(el);setTimeout(()=>el.remove(),2000);
   }
 }
 
-// Estado anterior do pódio para detectar mudanças
-let prevPodium = [];
+// ════════════════════════════════════════
+// ANIMAÇÃO ÉPICA DE TOMADA DE PÓDIO
+// ════════════════════════════════════════
+let epicActive=false;
+let epicTimeout=null;
 
-function renderPodium(sel){
-  const top3 = sel.slice(0,3);
-  const stage = document.getElementById('podium-stage');
-  const hist = document.getElementById('podium-history');
+const BATTLE_MSGS=[
+  '🔥 DESBANCOU O LÍDER COM FORÇA TOTAL!',
+  '⚡ TOMOU O TRONO À FORÇA BRUTA!',
+  '💥 EXPULSOU O RIVAL DO TOPO!',
+  '🚀 DISPAROU E ASSUMIU O COMANDO!',
+  '⚔️ BATALHOU E VENCEU A DISPUTA!',
+  '🏆 NOVO REI DA ARENA DE VENDAS!',
+  '💪 ARRASOU E DOMINOU O PÓDIO!',
+  '🌟 BRILHOU MAIS QUE TODOS E SUBIU!',
+];
 
-  // Detectar mudanças
-  const mudancas = [];
-  top3.forEach((s,i)=>{
-    const prev = prevPodium[i];
-    if(prev && prev.nome !== s.nome){
-      mudancas.push(`${s.nome} assumiu ${i+1}º lugar!`);
-    }
+const RANK_LABELS=['🏆 1º LUGAR · NOVO CAMPEÃO','🥈 2º LUGAR · SUBIU NA ARENA','🥉 3º LUGAR · ENTROU NO PÓDIO'];
+
+function launchEpicConfetti(){
+  const colors=['#f59e0b','#fbbf24','#10b981','#3b82f6','#ec4899','#8b5cf6','#ef4444','#fff'];
+  const shapes=['3px','50%','0'];
+  for(let i=0;i<80;i++){
+    const el=document.createElement('div');
+    el.className='epic-confetti';
+    const sz=Math.random()*12+6;
+    const x=Math.random()*100;
+    const delay=Math.random()*1.5;
+    const dur=Math.random()*2+1.5;
+    const color=colors[Math.floor(Math.random()*colors.length)];
+    const br=shapes[Math.floor(Math.random()*shapes.length)];
+    el.style.cssText=`width:${sz}px;height:${sz}px;left:${x}vw;top:-20px;background:${color};border-radius:${br};animation-duration:${dur}s;animation-delay:${delay}s;`;
+    document.getElementById('epic-overlay').appendChild(el);
+    setTimeout(()=>el.remove(),(dur+delay)*1000+100);
+  }
+}
+
+function showEpicTakeover({winner,loser,rank}){
+  if(epicActive) return;
+  epicActive=true;
+  clearInterval(autoInt); // Para o auto-slide durante a animação
+
+  const overlay=document.getElementById('epic-overlay');
+
+  // Preenche os dados
+  document.getElementById('epic-winner-emoji').textContent=getEmoji(winner.nome,winner.squad);
+  document.getElementById('epic-winner-name').textContent=winner.nome.split(' ').slice(0,2).join(' ');
+  document.getElementById('epic-winner-pct').textContent=Math.round(winner.pct)+'%';
+  document.getElementById('sc-new-pct').textContent=Math.round(winner.pct)+'%';
+
+  document.getElementById('epic-loser-emoji').textContent=getEmoji(loser.nome,loser.squad);
+  document.getElementById('epic-loser-name').textContent=loser.nome.split(' ').slice(0,2).join(' ');
+  document.getElementById('epic-loser-badge').textContent='Era o '+(rank===0?'🥇 1º':(rank===1?'🥈 2º':'🥉 3º'));
+  document.getElementById('sc-old-pct').textContent=Math.round(loser.pct)+'%';
+
+  document.getElementById('epic-msg').textContent=BATTLE_MSGS[Math.floor(Math.random()*BATTLE_MSGS.length)];
+  document.getElementById('epic-rank-badge').textContent=RANK_LABELS[rank]||RANK_LABELS[0];
+
+  // Título por posição
+  const titles=['👑 NOVO LÍDER! 👑','⚔️ SUBIU NO RANKING!','🏅 ENTROU NO PÓDIO!'];
+  document.getElementById('epic-title').textContent=titles[rank]||titles[0];
+
+  // Countdown dots (5 segundos)
+  const cdEl=document.getElementById('epic-countdown');
+  cdEl.innerHTML='';
+  const totalSecs=6;
+  for(let i=0;i<totalSecs;i++){
+    const d=document.createElement('div');d.className='cd-dot';
+    if(i===0)d.classList.add('active');
+    cdEl.appendChild(d);
+  }
+
+  // Força re-animação destruindo e recriando elementos críticos
+  const shockwave=document.getElementById('epic-shockwave');
+  const newSw=shockwave.cloneNode(true);
+  shockwave.parentNode.replaceChild(newSw,shockwave);
+
+  const flash=document.getElementById('epic-flash');
+  const newFlash=flash.cloneNode(true);
+  flash.parentNode.replaceChild(newFlash,flash);
+
+  // Re-anima personagens
+  ['epic-winner','epic-loser','epic-winner-emoji','epic-winner-name','epic-winner-pct',
+   'epic-loser-name','epic-loser-badge','epic-crown','epic-msg','epic-rank-badge',
+   'epic-title','epic-sub','epic-side-info'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    el.style.animation='none';
+    el.offsetHeight; // reflow
+    el.style.animation='';
   });
 
-  // Ordem visual: 2º | 1º | 3º
-  const order = top3.length>=2 ? [top3[1],top3[0],top3[2]].filter(Boolean) : top3;
-  const ranks = top3.length>=2 ? [2,1,3] : [1,2,3];
-  const rankCls = ['rank-2','rank-1','rank-3'];
-  const medals = ['🥈','🥇','🥉'];
-  const plinthLbls = ['2º LUGAR','🏆 1º LUGAR','3º LUGAR'];
+  overlay.classList.add('show');
 
-  stage.innerHTML = order.map((s,i)=>{
-    const rank = ranks[i];
-    const isNew = prevPodium.length > 0 && (!prevPodium[rank-1] || prevPodium[rank-1].nome !== s.nome);
-    const sp2 = Math.round(s.pct);
-    const emoji = getEmoji(s.nome, s.squad);
+  // Confetti épico após 1s
+  setTimeout(launchEpicConfetti,900);
+  setTimeout(launchEpicConfetti,1600);
+  setTimeout(launchEpicConfetti,2400);
+
+  // Confetti no pódio normal também
+  setTimeout(()=>launchConfetti(window.innerWidth/2,100),1200);
+
+  // Countdown tick
+  let tick=0;
+  const cdInterval=setInterval(()=>{
+    tick++;
+    const dots=cdEl.querySelectorAll('.cd-dot');
+    dots.forEach((d,i)=>d.classList.toggle('active',i<(totalSecs-tick)));
+    if(tick>=totalSecs){clearInterval(cdInterval);}
+  },1000);
+
+  // Fecha após 7s
+  epicTimeout=setTimeout(()=>{
+    overlay.classList.remove('show');
+    epicActive=false;
+    startAuto(); // Retoma o auto-slide
+  },totalSecs*1000+800);
+}
+
+// ════════════════════════════════════════
+// ESTADO ANTERIOR DO PÓDIO
+// ════════════════════════════════════════
+let prevPodium=[];
+let firstLoad=true;
+
+function renderPodium(sel){
+  const top3=sel.slice(0,3);
+  const stage=document.getElementById('podium-stage');
+  const hist=document.getElementById('podium-history');
+
+  // ── Detectar tomadas de pódio ──
+  if(!firstLoad && prevPodium.length>=1){
+    top3.forEach((s,rank)=>{
+      const prev=prevPodium[rank];
+      // Alguém novo assumiu essa posição
+      if(prev && prev.nome!==s.nome){
+        // Confirma que o vencedor não estava apenas em outra posição (subiu)
+        const wasBelow=prevPodium.findIndex(p=>p&&p.nome===s.nome);
+        // Só dispara se subiu ou entrou do nada
+        showEpicTakeover({winner:s, loser:prev, rank});
+      }
+    });
+  }
+
+  // Ordem visual: 2º | 1º | 3º
+  const order=top3.length>=2?[top3[1],top3[0],top3[2]].filter(Boolean):top3;
+  const ranks=top3.length>=2?[2,1,3]:[1,2,3];
+  const rankCls=['rank-2','rank-1','rank-3'];
+  const medals=['🥈','🥇','🥉'];
+  const plinthLbls=['2º LUGAR','🏆 1º LUGAR','3º LUGAR'];
+
+  stage.innerHTML=order.map((s,i)=>{
+    const rank=ranks[i];
+    const isNew=prevPodium.length>0&&(!prevPodium[rank-1]||prevPodium[rank-1].nome!==s.nome);
+    const pctRnd=Math.round(s.pct);
+    const emoji=getEmoji(s.nome,s.squad);
     return `
     <div class="plinth-wrap ${rankCls[i]}">
       <div class="character-wrap">
         <div class="character ${isNew?'entering':''}" title="${s.nome}">${emoji}</div>
         <div class="char-name" style="color:${col(s.pct)}">${s.nome.split(' ')[0]} ${s.nome.split(' ')[1]||''}</div>
-        <div class="char-pct" style="color:${col(s.pct)}">${sp2}%</div>
+        <div class="char-pct" style="color:${col(s.pct)}">${pctRnd}%</div>
         <div class="char-squad">${s.squad} · ${f(s.real)}</div>
       </div>
       <div class="plinth">${medals[i]}</div>
@@ -361,21 +742,21 @@ function renderPodium(sel){
     </div>`;
   }).join('');
 
-  // Confetti se houve mudança no 1º lugar
-  if(prevPodium.length > 0 && top3[0] && prevPodium[0] && top3[0].nome !== prevPodium[0].nome){
-    setTimeout(()=>launchConfetti(window.innerWidth/2, 100), 500);
+  // Histórico
+  const mudancas=[];
+  top3.forEach((s,i)=>{
+    const prev=prevPodium[i];
+    if(prev&&prev.nome!==s.nome) mudancas.push(`${s.nome} assumiu ${i+1}º!`);
+  });
+  if(mudancas.length>0){
+    const chip=document.createElement('div');
+    chip.className='hist-chip';chip.innerHTML=`🔄 ${mudancas.join(' · ')}`;
+    hist.insertBefore(chip,hist.firstChild);
+    if(hist.children.length>3)hist.lastChild.remove();
   }
 
-  // Histórico de mudanças
-  if(mudancas.length > 0){
-    const chip = document.createElement('div');
-    chip.className = 'hist-chip';
-    chip.innerHTML = `🔄 ${mudancas.join(' · ')}`;
-    hist.insertBefore(chip, hist.firstChild);
-    if(hist.children.length > 3) hist.lastChild.remove();
-  }
-
-  prevPodium = [...top3];
+  prevPodium=[...top3];
+  firstLoad=false;
 }
 
 // RENDER PRINCIPAL
@@ -404,7 +785,7 @@ async function load(){
     const squads=Object.values(sqd).map(s=>({...s,pct:s.meta>0?s.real/s.meta*100:0})).sort((a,b)=>b.pct-a.pct);
     const p=Math.round(tP),vc=sel.filter(s=>s.pct>=80).length,al=sel.filter(s=>s.pct>=50&&s.pct<80).length,rc=sel.filter(s=>s.pct<50).length;
 
-    // ── S0 HERO ──
+    // S0
     document.getElementById('h-pct').textContent=p+'%';
     document.getElementById('h-pct').style.color=col(p);
     document.getElementById('h-sub').textContent=f(tR)+' realizados de '+f(tM)+' estimados';
@@ -412,7 +793,6 @@ async function load(){
     document.getElementById('h-verde').textContent=vc;
     document.getElementById('h-alerta').textContent=al;
     document.getElementById('h-risco').textContent=rc;
-    // Mini ranking
     document.getElementById('h-mini').innerHTML=sel.slice(0,6).map((s,i)=>`
       <div class="mini-chip">
         <span class="mc-rank">${['🥇','🥈','🥉','4°','5°','6°'][i]}</span>
@@ -420,10 +800,10 @@ async function load(){
         <span class="mc-pct" style="color:${col(s.pct)}">${Math.round(s.pct)}%</span>
       </div>`).join('');
 
-    // ── S1 PÓDIO ──
+    // S1
     renderPodium(sel);
 
-    // ── S2 SQUADS ──
+    // S2
     document.getElementById('sqs').innerHTML=squads.map(sq=>{
       const sp2=Math.round(sq.pct);
       const badge=sq.pct>=80?'🏆':sq.pct>=50?'⚔️':'⚠️';
@@ -455,9 +835,8 @@ async function load(){
         </div>
       </div>`;}).join('');
 
-    // ── S3 RANKING ──
-    const rks=['top1','top2','top3'];
-    const mds=['🥇','🥈','🥉'];
+    // S3
+    const rks=['top1','top2','top3'];const mds=['🥇','🥈','🥉'];
     document.getElementById('sel').innerHTML=sel.slice(0,10).map((s,i)=>{const sp2=Math.round(s.pct);return `
       <div class="rank-card ${i<3?rks[i]:''}">
         <div class="rank-num">${i<3?mds[i]:i+1}</div>
@@ -473,7 +852,7 @@ async function load(){
         </div>
       </div>`;}).join('');
 
-    // ── S4 DETRATORES ──
+    // S4
     const dt=sel.filter(s=>s.pct<50);
     document.getElementById('det-count').textContent=dt.length;
     document.getElementById('det').innerHTML=dt.length
