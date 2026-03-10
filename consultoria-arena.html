@@ -275,7 +275,8 @@ document.body.addEventListener('click',e=>{if(!e.target.classList.contains('di')
 goTo(0);startAuto();
 
 // ════ UTILS ════
-const num=v=>{if(!v)return 0;let s=String(v).replace(/[^0-9,.-]/g,'');if(s.includes('.')&&s.includes(','))s=s.replace(/\./g,'').replace(',','.');else if(s.includes(','))s=s.replace(',','.');return parseFloat(s)||0;};
+const num=v=>{if(!v)return 0;let s=String(v).replace(/[^0-9,.-]/g,'');if(s.includes('.')&&s.includes(','))s=s.replace(/\./g,'').replace(',','.');else if(s.includes(',')&&!s.includes('.'))s=s.replace(',','.');return parseFloat(s)||0;};
+const normalize=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
 const f=v=>v>=1000?'R$'+(v/1000).toFixed(1)+'k':'R$'+Math.round(v);
 const col=p=>p>=80?'var(--green)':p>=50?'var(--gold)':'var(--red)';
 const scls=p=>p>=80?'s-green':p>=50?'s-gold':'s-red';
@@ -542,7 +543,7 @@ async function load(){
         const nome=r['Consultor'].trim();
         const meta=num(r['Meta do Dia']),real=num(r['Receita Realizada']);
         const pct=meta>0?real/meta*100:0;
-        const cfg=CONSULTORES.find(c=>c.nome.toLowerCase()===nome.toLowerCase())||{emoji:'💼'};
+        const cfg=CONSULTORES.find(c=>normalize(c.nome)===normalize(nome))||{emoji:'💼'};
         return{nome,meta,real,pct,emoji:cfg.emoji};
       }).sort((a,b)=>b.pct-a.pct);
 
@@ -554,7 +555,7 @@ async function load(){
         const nome=r['Pré-Consultor'].trim();
         const meta=num(r['Meta Agendamentos']),real=num(r['Agendamentos Feitos']);
         const pct=meta>0?real/meta*100:0;
-        const cfg=PRE_CONSULTORES.find(c=>c.nome.toLowerCase()===nome.toLowerCase())||{emoji:'⚡'};
+        const cfg=PRE_CONSULTORES.find(c=>normalize(c.nome)===normalize(nome))||{emoji:'⚡'};
         return{nome,meta,real,pct,emoji:cfg.emoji};
       });
 
