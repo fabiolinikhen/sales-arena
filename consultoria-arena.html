@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Consultoria Arena 🎯</title>
+<style>
+:root{--bg:#0a0e1a;--card:#111827;--border:#1e3a5f;--gold:#f59e0b;--silver:#94a3b8;--bronze:#cd7f32;--green:#10b981;--red:#ef4444;--blue:#3b82f6;--purple:#8b5cf6;--text:#e2e8f0;--muted:#64748b;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;}
+
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.particle{position:absolute;border-radius:50%;animation:float linear infinite;opacity:.15;}
+@keyframes float{0%{transform:translateY(100vh) scale(0)}100%{transform:translateY(-10vh) scale(1)}}
+
+header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1e1b4b);border-bottom:2px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px;box-shadow:0 4px 30px rgba(0,0,0,.5);}
+.logo{font-size:22px;font-weight:900;letter-spacing:3px;}.logo span{color:var(--purple);text-shadow:0 0 20px rgba(139,92,246,.6);}
+.live{display:flex;align-items:center;gap:8px;background:rgba(139,92,246,.15);border:1px solid var(--purple);border-radius:20px;padding:6px 18px;font-size:13px;color:var(--purple);font-weight:700;}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--purple);animation:pulse 1.5s infinite;box-shadow:0 0 8px var(--purple);}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.6)}}
+.header-info{display:flex;align-items:center;gap:20px;}
+#slide-label{font-size:13px;color:var(--muted);font-weight:700;letter-spacing:1px;}
+#upd{font-size:11px;color:var(--muted);text-align:right;line-height:1.5;}
+
+.slide{display:none;padding:16px 32px;height:calc(100vh - 64px);flex-direction:column;position:relative;z-index:5;}
+.slide.active{display:flex;animation:slideIn .5s cubic-bezier(.25,.8,.25,1);}
+@keyframes slideIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+.st{font-size:11px;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.st::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+
+/* ═══ S0 HERO ═══ */
+.hero{background:linear-gradient(135deg,#0d1424,#111827);border:1px solid var(--border);border-radius:24px;padding:36px 48px;display:flex;justify-content:space-between;align-items:center;flex:1;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-50%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(139,92,246,.08),transparent 70%);pointer-events:none;}
+.hero-left{flex:1;}
+.hero-label{font-size:13px;color:var(--muted);font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;}
+.hero-pct{font-size:clamp(80px,12vw,140px);font-weight:900;line-height:1;letter-spacing:-4px;transition:color .5s;}
+.hero-sub{font-size:16px;color:var(--muted);margin-top:8px;}
+.hero-bar-wrap{background:rgba(255,255,255,.06);border-radius:14px;height:18px;overflow:hidden;margin-top:18px;max-width:600px;border:1px solid var(--border);}
+.hero-bar{height:100%;border-radius:14px;background:linear-gradient(90deg,#7c3aed,#8b5cf6,#a78bfa);transition:width 1.5s ease;position:relative;}
+.hero-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:shine 2s infinite;}
+@keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+.hero-right{display:flex;gap:32px;flex-shrink:0;}
+.hero-stat{text-align:center;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:20px;padding:20px 28px;}
+.hero-stat .val{font-size:clamp(40px,5vw,68px);font-weight:900;line-height:1;}
+.hero-stat .lbl{font-size:13px;color:var(--muted);margin-top:8px;font-weight:600;}
+.hero-mini{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;}
+.mini-chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:13px;}
+.mini-chip .mc-rank{font-weight:800;font-size:15px;width:22px;}
+.mini-chip .mc-name{font-weight:600;}
+.mini-chip .mc-pct{font-weight:800;margin-left:auto;}
+
+/* ═══ S1 RANKING CONSULTORES ═══ */
+.ranking-big{display:flex;flex-direction:column;gap:14px;flex:1;justify-content:center;}
+.rank-big-card{background:linear-gradient(135deg,#0d1424,#111827);border:1px solid var(--border);border-radius:20px;padding:20px 28px;display:flex;align-items:center;gap:20px;position:relative;overflow:hidden;transition:all .3s;}
+.rank-big-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:20px 0 0 20px;}
+.rank-big-card.p1{border-color:var(--gold);background:linear-gradient(135deg,#1a1200,#111827);}.rank-big-card.p1::before{background:var(--gold);}
+.rank-big-card.p2{border-color:var(--silver);}.rank-big-card.p2::before{background:var(--silver);}
+.rbc-emoji{font-size:clamp(40px,6vw,70px);animation:idle 3s ease-in-out infinite;flex-shrink:0;}
+@keyframes idle{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
+.rbc-medal{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;flex-shrink:0;border:3px solid var(--border);}
+.p1 .rbc-medal{background:var(--gold);color:#000;border-color:var(--gold);box-shadow:0 0 20px rgba(245,158,11,.4);}
+.p2 .rbc-medal{background:var(--silver);color:#000;border-color:var(--silver);}
+.rbc-info{flex:1;min-width:0;}
+.rbc-name{font-size:clamp(18px,2.5vw,28px);font-weight:800;}
+.rbc-bar-wrap{background:rgba(255,255,255,.06);border-radius:8px;height:10px;overflow:hidden;margin-top:10px;border:1px solid var(--border);}
+.rbc-bar{height:100%;border-radius:8px;background:linear-gradient(90deg,#7c3aed,#a78bfa);transition:width 1.5s ease;position:relative;overflow:hidden;}
+.rbc-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:shine 2s infinite;}
+.rbc-right{text-align:right;flex-shrink:0;}
+.rbc-pct{font-size:clamp(36px,5vw,60px);font-weight:900;}
+.rbc-vals{font-size:13px;color:var(--muted);margin-top:4px;}
+.rbc-status{font-size:11px;padding:3px 10px;border-radius:6px;margin-top:6px;font-weight:700;display:inline-block;}
+.s-green{background:rgba(16,185,129,.15);color:var(--green);}
+.s-gold{background:rgba(245,158,11,.15);color:var(--gold);}
+.s-red{background:rgba(239,68,68,.15);color:var(--red);}
+
+/* ═══ S2 SLOTS DE AGENDA ═══ */
+.slots-section{flex:1;display:flex;flex-direction:column;gap:16px;overflow:hidden;}
+.slots-summary{display:flex;gap:12px;flex-shrink:0;}
+.slot-sum-card{flex:1;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:14px 20px;text-align:center;}
+.slot-sum-card .ssv{font-size:clamp(28px,4vw,48px);font-weight:900;}
+.slot-sum-card .ssl{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
+.slots-grid{flex:1;display:grid;gap:12px;overflow:hidden;}
+.consultant-slots{background:linear-gradient(135deg,#0d1424,#111827);border:1px solid var(--border);border-radius:16px;padding:14px 18px;display:flex;flex-direction:column;gap:10px;}
+.cs-header{display:flex;align-items:center;gap:10px;}
+.cs-emoji{font-size:28px;}
+.cs-name{font-size:16px;font-weight:800;}
+.cs-stats{margin-left:auto;display:flex;gap:8px;}
+.cs-stat{font-size:12px;padding:3px 10px;border-radius:8px;font-weight:700;}
+.cs-stat.occupied{background:rgba(16,185,129,.15);color:var(--green);}
+.cs-stat.empty{background:rgba(239,68,68,.15);color:var(--red);}
+.cs-stat.loading{background:rgba(100,116,139,.15);color:var(--muted);}
+.slots-row{display:flex;gap:6px;flex-wrap:wrap;}
+.slot{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border-radius:10px;padding:6px 10px;font-size:11px;font-weight:700;
+  min-width:64px;flex:1;border:1px solid transparent;
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.slot.occupied{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.3);color:var(--green);}
+.slot.empty{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:var(--red);animation:emptyPulse 2s ease-in-out infinite;}
+.slot.past{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.06);color:var(--muted);opacity:.5;}
+.slot.loading{background:rgba(100,116,139,.08);border-color:rgba(100,116,139,.2);color:var(--muted);}
+@keyframes emptyPulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.2)}50%{box-shadow:0 0 0 4px rgba(239,68,68,.0)}}
+.slot-time{font-size:10px;font-weight:800;letter-spacing:.5px;}
+.slot-icon{font-size:14px;margin-top:2px;}
+.slot-label{font-size:9px;margin-top:1px;opacity:.8;}
+/* Status de erro/carregando */
+.cal-status{font-size:11px;color:var(--muted);text-align:center;padding:8px;font-style:italic;}
+
+/* ═══ S3 PRÉ-CONSULTORES ═══ */
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;}
+.pre-card{background:linear-gradient(135deg,#0d1424,#111827);border:1px solid var(--border);border-radius:20px;padding:24px 28px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
+.pre-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:20px 20px 0 0;background:linear-gradient(90deg,#7c3aed,#a78bfa,#c4b5fd);}
+.pre-card::after{content:'';position:absolute;inset:0;border-radius:20px;pointer-events:none;box-shadow:inset 0 0 60px rgba(139,92,246,.05);}
+.pre-top{display:flex;justify-content:space-between;align-items:flex-start;}
+.pre-name{font-size:20px;font-weight:800;letter-spacing:1px;}
+.pre-emoji{font-size:36px;animation:idle 3s ease-in-out infinite;}
+.pre-num{font-size:clamp(70px,10vw,110px);font-weight:900;line-height:1;letter-spacing:-3px;color:var(--purple);text-shadow:0 0 40px rgba(139,92,246,.4);margin:8px 0;}
+.pre-meta{font-size:15px;color:var(--muted);font-weight:600;margin-bottom:14px;}
+.pre-bar-wrap{background:rgba(255,255,255,.06);border-radius:10px;height:14px;overflow:hidden;border:1px solid var(--border);}
+.pre-bar{height:100%;border-radius:10px;background:linear-gradient(90deg,#7c3aed,#a78bfa);transition:width 1.5s ease;position:relative;overflow:hidden;}
+.pre-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:shine 2s infinite;}
+.pre-stats{display:flex;gap:0;margin-top:14px;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.pre-stat{flex:1;text-align:center;padding:10px;background:rgba(255,255,255,.02);}
+.pre-stat:not(:last-child){border-right:1px solid var(--border);}
+.pre-stat .pv{font-size:22px;font-weight:900;}
+.pre-stat .pl{font-size:10px;color:var(--muted);margin-top:3px;font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+
+/* ═══ S4 VISÃO GERAL ═══ */
+.overview{display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;}
+.ov-card{background:linear-gradient(135deg,#0d1424,#111827);border:1px solid var(--border);border-radius:20px;padding:20px 24px;display:flex;flex-direction:column;gap:10px;}
+.ov-title{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.ov-item{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.ov-item:last-child{border-bottom:none;}
+.ov-emoji{font-size:20px;flex-shrink:0;}
+.ov-name{flex:1;font-size:13px;font-weight:600;}
+.ov-bar-wrap{width:80px;background:rgba(255,255,255,.06);border-radius:4px;height:6px;overflow:hidden;flex-shrink:0;}
+.ov-bar{height:100%;border-radius:4px;transition:width 1s ease;}
+.ov-pct{font-size:15px;font-weight:900;flex-shrink:0;min-width:44px;text-align:right;}
+
+/* PROGRESS + DOTS */
+#prog{position:fixed;bottom:0;left:0;height:4px;background:linear-gradient(90deg,var(--purple),#a78bfa,var(--gold));z-index:100;transition:none;}
+#dots{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:100;}
+.di{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .4s;cursor:pointer;}
+.di.a{background:var(--purple);width:28px;border-radius:4px;box-shadow:0 0 10px var(--purple);}
+
+.c-green{color:var(--green);}.c-gold{color:var(--gold);}.c-red{color:var(--red);}.c-purple{color:var(--purple);}
+
+/* ═══ STOP LOSS ═══ */
+@keyframes screenShake{0%,100%{transform:translate(0,0)}10%{transform:translate(-12px,-8px)}20%{transform:translate(14px,10px)}30%{transform:translate(-10px,12px)}40%{transform:translate(16px,-10px)}50%{transform:translate(-14px,8px)}60%{transform:translate(10px,-12px)}70%{transform:translate(-8px,10px)}80%{transform:translate(12px,-6px)}90%{transform:translate(-6px,4px)}}
+body.shaking{animation:screenShake .7s cubic-bezier(.36,.07,.19,.97);}
+</style>
+</head>
+<body>
+
+<div id="particles"></div>
+
+<header>
+  <div class="logo">CONSULTORIA <span>ARENA</span></div>
+  <div class="live"><div class="dot"></div> AO VIVO</div>
+  <div class="header-info">
+    <div id="slide-label"></div>
+    <div id="upd"></div>
+  </div>
+</header>
+
+<!-- S0: META GERAL -->
+<div id="s0" class="slide active">
+  <div class="st">🎯 Meta Geral de Receita</div>
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-label">ATINGIMENTO GERAL</div>
+      <div class="hero-pct" id="h-pct">—</div>
+      <div class="hero-sub" id="h-sub"></div>
+      <div class="hero-bar-wrap"><div class="hero-bar" id="h-bar" style="width:0%"></div></div>
+      <div class="hero-mini" id="h-mini"></div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-stat"><div class="val c-green" id="h-verde">—</div><div class="lbl">✅ No Verde</div></div>
+      <div class="hero-stat"><div class="val c-gold" id="h-alerta">—</div><div class="lbl">⚠️ Em Alerta</div></div>
+      <div class="hero-stat"><div class="val c-red" id="h-risco">—</div><div class="lbl">🚨 Em Risco</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S1: RANKING CONSULTORES -->
+<div id="s1" class="slide">
+  <div class="st">💼 Ranking de Consultores</div>
+  <div class="ranking-big" id="rank-consultores"></div>
+</div>
+
+<!-- S2: SLOTS DE AGENDA -->
+<div id="s2" class="slide">
+  <div class="st">📅 Slots de Agenda — Visão em Tempo Real</div>
+  <div class="slots-section">
+    <div class="slots-summary" id="slots-summary"></div>
+    <div class="slots-grid" id="slots-grid" style="grid-template-columns:1fr 1fr;"></div>
+  </div>
+</div>
+
+<!-- S3: PRÉ-CONSULTORES -->
+<div id="s3" class="slide">
+  <div class="st">⚡ Pré-Consultores — Agendamentos</div>
+  <div class="pre-grid" id="pre-grid"></div>
+</div>
+
+<!-- S4: VISÃO GERAL -->
+<div id="s4" class="slide">
+  <div class="st">🏆 Visão Geral do Time</div>
+  <div class="overview" id="overview">
+    <div class="ov-card">
+      <div class="ov-title">💼 Consultores — Receita</div>
+      <div id="ov-consultores"></div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-title">⚡ Pré-Consultores — Agendamentos</div>
+      <div id="ov-pre"></div>
+    </div>
+  </div>
+</div>
+
+<div id="prog" style="width:0%"></div>
+<div id="dots"></div>
+
+<script>
+// ════ CONFIG ════
+const SHEET_ID = '1Pzlx7HPyDkKMiVuBMqO99Ou7NXOoT_p8R17lQM2bFEw';
+
+const CONSULTORES = [
+  { nome:'Juliana França', emoji:'🎯', ical:'https://corsproxy.io/?https://calendar.google.com/calendar/ical/juliana.franca%40fluencypass.com/public/basic.ics' },
+  { nome:'Everton Lima',   emoji:'💼', ical:'https://corsproxy.io/?https://calendar.google.com/calendar/ical/everton.lima%40fluencypass.com/public/basic.ics' },
+];
+
+const PRE_CONSULTORES = [
+  { nome:'Murilo', emoji:'⚡' },
+  { nome:'Victor', emoji:'🚀' },
+];
+
+// Slots: 11h às 21h (10 slots de 1h)
+const SLOTS_INICIO = 11;
+const SLOTS_FIM    = 21;
+const DUR = 14000;
+const LABELS = ['🎯 Meta Geral','💼 Consultores','📅 Agenda','⚡ Pré-Vendas','🏆 Visão Geral'];
+
+// ════ PARTÍCULAS ════
+(()=>{
+  const c=document.getElementById('particles');
+  const colors=['#7c3aed','#8b5cf6','#f59e0b','#10b981','#a78bfa'];
+  for(let i=0;i<25;i++){
+    const p=document.createElement('div');p.className='particle';
+    const sz=Math.random()*6+3;
+    p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*20+15}s;animation-delay:${Math.random()*15}s;`;
+    c.appendChild(p);
+  }
+})();
+
+// ════ DOTS ════
+const dotsEl=document.getElementById('dots');
+for(let i=0;i<5;i++){const d=document.createElement('div');d.className='di'+(i===0?' a':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);}
+
+let cur=0,autoInt,epicActive=false;
+function goTo(n){
+  document.getElementById('s'+cur).className='slide';
+  document.querySelectorAll('.di')[cur].className='di';
+  cur=((n%5)+5)%5;
+  document.getElementById('s'+cur).className='slide active';
+  document.querySelectorAll('.di')[cur].className='di a';
+  document.getElementById('slide-label').textContent=LABELS[cur]+' ('+(cur+1)+'/5)';
+  const bar=document.getElementById('prog');
+  bar.style.transition='none';bar.style.width='0%';
+  setTimeout(()=>{bar.style.transition='width '+DUR+'ms linear';bar.style.width='100%';},60);
+}
+function startAuto(){clearInterval(autoInt);autoInt=setInterval(()=>goTo(cur+1),DUR);}
+document.body.addEventListener('click',e=>{if(!e.target.classList.contains('di')&&!epicActive){goTo(cur+1);startAuto();}});
+goTo(0);startAuto();
+
+// ════ UTILS ════
+const num=v=>{if(!v)return 0;let s=String(v).replace(/[^0-9,.-]/g,'');if(s.includes('.')&&s.includes(','))s=s.replace(/\./g,'').replace(',','.');else if(s.includes(','))s=s.replace(',','.');return parseFloat(s)||0;};
+const f=v=>v>=1000?'R$'+(v/1000).toFixed(1)+'k':'R$'+Math.round(v);
+const col=p=>p>=80?'var(--green)':p>=50?'var(--gold)':'var(--red)';
+const scls=p=>p>=80?'s-green':p>=50?'s-gold':'s-red';
+const slbl=p=>p>=80?'✅ Meta Batida':p>=50?'⚠️ Em Alerta':'🚨 Em Risco';
+function sp(l){const v=[];let c='',q=false;for(const ch of l){if(ch==='"'){q=!q;continue;}if(ch===','&&!q){v.push(c.trim());c='';}else c+=ch;}v.push(c.trim());return v;}
+
+// ════ iCAL PARSER ════
+function parseIcal(text){
+  const events=[];
+  const blocks=text.split('BEGIN:VEVENT');
+  blocks.slice(1).forEach(block=>{
+    const end=block.indexOf('END:VEVENT');
+    const content=block.substring(0,end);
+    const getVal=key=>{
+      const rx=new RegExp(key+'[^:]*:(.+)','i');
+      const m=content.match(rx);
+      return m?m[1].replace(/\r/g,'').trim():'';
+    };
+    const dtstart=getVal('DTSTART');
+    const dtend=getVal('DTEND');
+    const summary=getVal('SUMMARY');
+    const transp=getVal('TRANSP');
+    // Só eventos de hoje
+    const today=new Date();
+    const y=today.getFullYear(),mo=String(today.getMonth()+1).padStart(2,'0'),d=String(today.getDate()).padStart(2,'0');
+    const todayStr=`${y}${mo}${d}`;
+    if(dtstart.includes(todayStr)){
+      // Extrai hora
+      const parseH=dt=>{
+        // Formato: 20240115T130000Z ou 20240115T130000
+        const m=dt.match(/T(\d{2})(\d{2})/);
+        if(!m)return null;
+        let h=parseInt(m[1]),min=parseInt(m[2]);
+        // Se termina em Z, converte UTC→BRT (-3h)
+        if(dt.endsWith('Z')) h=(h-3+24)%24;
+        return{h,min};
+      };
+      const start=parseH(dtstart);
+      const finish=parseH(dtend);
+      if(start) events.push({summary,start,finish,transp,dtstart});
+    }
+  });
+  return events;
+}
+
+function isSlotOccupied(events,slotH){
+  return events.some(ev=>{
+    if(!ev.start)return false;
+    const sh=ev.start.h,sm=ev.start.min||0;
+    const eh=ev.finish?ev.finish.h:sh+1;
+    // Slot de slotH:00 até slotH+1:00 — verifica sobreposição
+    const slotStart=slotH*60;
+    const slotEnd=(slotH+1)*60;
+    const evStart=sh*60+sm;
+    const evEnd=eh*60+(ev.finish?ev.finish.min||0:0);
+    return evStart<slotEnd && evEnd>slotStart;
+  });
+}
+
+// ════ FETCH iCAL ════
+const calCache={};
+async function fetchCal(url,nome){
+  try{
+    const res=await fetch(url,{cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const text=await res.text();
+    const events=parseIcal(text);
+    calCache[nome]={events,ok:true,ts:Date.now()};
+    return{events,ok:true};
+  }catch(e){
+    // Tenta cache anterior
+    if(calCache[nome]) return calCache[nome];
+    return{events:[],ok:false,err:e.message};
+  }
+}
+
+// ════ RENDER SLOTS ════
+async function renderSlots(){
+  const grid=document.getElementById('slots-grid');
+  const summary=document.getElementById('slots-summary');
+  const now=new Date();
+  const nowH=now.getHours();
+
+  let totalSlots=0,totalOccupied=0,totalEmpty=0;
+
+  // Carrega calendários em paralelo
+  const results=await Promise.all(CONSULTORES.map(c=>fetchCal(c.ical,c.nome)));
+
+  grid.innerHTML='';
+
+  CONSULTORES.forEach((c,ci)=>{
+    const {events,ok,err}=results[ci];
+    const card=document.createElement('div');
+    card.className='consultant-slots';
+
+    const slots=[];
+    let occupied=0,empty=0,past=0;
+
+    for(let h=SLOTS_INICIO;h<SLOTS_FIM;h++){
+      const isPast=h<nowH;
+      const isCurrent=h===nowH;
+      const occ=isSlotOccupied(events,h);
+      if(isPast){past++;}
+      else if(occ){occupied++;totalOccupied++;}
+      else{empty++;totalEmpty++;}
+      totalSlots++;
+      slots.push({h,occ,isPast,isCurrent});
+    }
+
+    const statusHtml=ok
+      ?`<span class="cs-stat occupied">✅ ${occupied} ocupados</span><span class="cs-stat empty">❌ ${empty} vazios</span>`
+      :`<span class="cs-stat loading">⏳ carregando...</span>`;
+
+    card.innerHTML=`
+      <div class="cs-header">
+        <span class="cs-emoji">${c.emoji}</span>
+        <span class="cs-name">${c.nome}</span>
+        <div class="cs-stats">${statusHtml}</div>
+      </div>
+      ${!ok?`<div class="cal-status">⚠️ ${err||'Erro ao carregar calendário'} — verifique se o calendário está público</div>`:''}
+      <div class="slots-row">
+        ${slots.map(s=>{
+          const cls=s.isPast?'past':s.occ?'occupied':'empty';
+          const icon=s.isPast?'—':s.occ?'✅':'❌';
+          const lbl=s.isPast?'passado':s.occ?'ocupado':'vazio';
+          return `<div class="slot ${cls}${s.isCurrent?' current':''}">
+            <div class="slot-time">${String(s.h).padStart(2,'0')}h</div>
+            <div class="slot-icon">${icon}</div>
+            <div class="slot-label">${lbl}</div>
+          </div>`;
+        }).join('')}
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  // Resumo geral
+  const slotsRestantes=totalSlots-totalOccupied-(CONSULTORES.length*(Math.max(0,nowH-SLOTS_INICIO)));
+  summary.innerHTML=`
+    <div class="slot-sum-card"><div class="ssv c-green">${totalOccupied}</div><div class="ssl">✅ Slots Ocupados</div></div>
+    <div class="slot-sum-card"><div class="ssv c-red">${totalEmpty}</div><div class="ssl">❌ Slots Vazios</div></div>
+    <div class="slot-sum-card"><div class="ssv c-gold">${totalEmpty}</div><div class="ssl">🎯 Buscar Agora</div></div>
+    <div class="slot-sum-card"><div class="ssv" style="color:var(--purple)">${SLOTS_FIM-Math.max(nowH,SLOTS_INICIO)}h</div><div class="ssl">⏰ Restam no Dia</div></div>
+  `;
+}
+
+// ════ STOP LOSS ════
+let stopLossShown={12:false,16:false},stopLossActive=false;
+let _tM=0,_tR=0;
+
+function calcRitmo(meta,real){
+  const now=new Date();
+  const minPassados=Math.max(0,(now.getHours()*60+now.getMinutes())-(11*60));
+  const fracao=Math.min(1,minPassados/(10*60)); // 11h às 21h = 10h
+  const esperado=meta*fracao;
+  const pct=esperado>0?(real/esperado)*100:100;
+  return{esperado,pct,fracao};
+}
+
+function playStopLossSound(){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    for(let i=0;i<6;i++){
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);o.type='square';o.frequency.value=i%2===0?880:660;
+      g.gain.setValueAtTime(0,ctx.currentTime+i*.25);g.gain.linearRampToValueAtTime(.3,ctx.currentTime+i*.25+.05);g.gain.linearRampToValueAtTime(0,ctx.currentTime+i*.25+.22);
+      o.start(ctx.currentTime+i*.25);o.stop(ctx.currentTime+i*.25+.25);
+    }
+    const boom=ctx.createOscillator(),bg=ctx.createGain();
+    boom.connect(bg);bg.connect(ctx.destination);boom.type='sine';boom.frequency.setValueAtTime(120,ctx.currentTime);boom.frequency.exponentialRampToValueAtTime(30,ctx.currentTime+.8);
+    bg.gain.setValueAtTime(1,ctx.currentTime);bg.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.8);
+    boom.start(ctx.currentTime);boom.stop(ctx.currentTime+.8);
+  }catch(e){}
+}
+
+function shakeScreen(){
+  document.body.classList.remove('shaking');void document.body.offsetWidth;
+  document.body.classList.add('shaking');setTimeout(()=>document.body.classList.remove('shaking'),800);
+}
+
+function showStopLoss(meta,real){
+  if(stopLossActive)return;
+  stopLossActive=true;epicActive=true;clearInterval(autoInt);
+  playStopLossSound();shakeScreen();
+  const{esperado,pct}=calcRitmo(meta,real);
+  const gap=real-esperado;
+  const hora=new Date().getHours();
+  const checkpoint=hora>=16?'16h':'12h';
+  const pctInt=Math.round(pct);
+  const totalMs=2*60*1000;
+  const startTime=Date.now();
+
+  const ol=document.createElement('div');
+  ol.id='stoploss-overlay';
+  ol.style.cssText='position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0a0000;animation:slBgPulse 1s ease-in-out infinite;overflow:hidden;';
+  ol.innerHTML=`
+    <style>
+      @keyframes slBgPulse{0%,100%{background:#0a0000}50%{background:#1a0000}}
+      @keyframes slSireneSpin{0%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(8deg) scale(1.15)}100%{transform:rotate(-8deg) scale(1)}}
+      @keyframes slTitleSlam{0%{opacity:0;transform:scaleY(4) scaleX(.2)}50%{transform:scaleY(.85) scaleX(1.05)}100%{opacity:1;transform:scale(1)}}
+      @keyframes slFlash{0%,100%{opacity:1}50%{opacity:.3}}
+      @keyframes slSlideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+      @keyframes slGlow{0%,100%{text-shadow:0 0 20px #ef4444,0 0 40px #ef4444}50%{text-shadow:0 0 60px #ef4444,0 0 120px #ef4444}}
+      @keyframes slShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+      @keyframes slStripe{0%{background-position:0 0}100%{background-position:60px 0}}
+      #stoploss-overlay::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(239,68,68,.07) 0,rgba(239,68,68,.07) 10px,transparent 10px,transparent 30px);animation:slStripe 2s linear infinite;pointer-events:none;}
+    </style>
+    <div style="position:absolute;inset:0;border:6px solid #ef4444;pointer-events:none;animation:slFlash .6s ease-in-out infinite;box-shadow:inset 0 0 80px rgba(239,68,68,.3)"></div>
+    <div style="font-size:clamp(60px,10vw,110px);animation:slSireneSpin .5s ease-in-out infinite;filter:drop-shadow(0 0 30px rgba(239,68,68,1));margin-bottom:8px">🚨</div>
+    <div style="font-size:clamp(64px,13vw,140px);font-weight:900;line-height:.95;letter-spacing:6px;color:#ef4444;animation:slTitleSlam .4s cubic-bezier(.22,.61,.36,1) both,slGlow 1.2s ease-in-out infinite;text-align:center;font-family:'Segoe UI',sans-serif;">STOP<br>LOSS</div>
+    <div style="font-size:clamp(14px,2vw,22px);color:#fff;font-weight:700;margin-top:16px;text-align:center;animation:slSlideUp .4s ease .3s both;letter-spacing:1px;">Checkpoint das ${checkpoint} — apenas <span style="color:#fbbf24;font-weight:900">${pctInt}%</span> do ritmo esperado!</div>
+    <div style="display:flex;gap:clamp(20px,4vw,60px);margin-top:20px;animation:slSlideUp .4s ease .45s both;">
+      <div style="text-align:center;"><div style="font-size:clamp(24px,4vw,48px);font-weight:900;color:#fbbf24">${f(esperado)}</div><div style="font-size:11px;color:#94a3b8;letter-spacing:2px;font-weight:700;margin-top:4px">ESPERADO AGORA</div></div>
+      <div style="text-align:center;"><div style="font-size:clamp(24px,4vw,48px);font-weight:900;color:#fbbf24">${f(real)}</div><div style="font-size:11px;color:#94a3b8;letter-spacing:2px;font-weight:700;margin-top:4px">REALIZADO</div></div>
+      <div style="text-align:center;"><div style="font-size:clamp(24px,4vw,48px);font-weight:900;color:#ef4444;animation:slShake .4s ease-in-out infinite">${gap<0?'-':'+'}${f(Math.abs(gap))}</div><div style="font-size:11px;color:#94a3b8;letter-spacing:2px;font-weight:700;margin-top:4px">GAP</div></div>
+    </div>
+    <div style="margin-top:20px;background:rgba(239,68,68,.12);border:2px solid rgba(239,68,68,.5);border-radius:16px;padding:16px 28px;max-width:min(600px,88vw);text-align:center;animation:slSlideUp .4s ease .6s both;">
+      <div style="font-size:clamp(13px,1.8vw,18px);font-weight:800;color:#fff;letter-spacing:1px;">⚡ ATENÇÃO LÍDERES — Acionar gatilhos de recuperação agora!</div>
+      <div style="font-size:clamp(11px,1.4vw,15px);color:#94a3b8;margin-top:8px;">Reúna o time · Reveja abordagem · Redefina foco</div>
+    </div>
+    <div style="position:absolute;bottom:0;left:0;right:0;height:6px;background:rgba(255,255,255,.08);">
+      <div id="sl-bar" style="height:100%;background:linear-gradient(90deg,#ef4444,#f97316);width:100%;box-shadow:0 0 10px #ef4444;"></div>
+    </div>
+    <div id="sl-timer" style="position:absolute;bottom:14px;font-size:13px;color:#64748b;font-weight:700;letter-spacing:2px;">Fechando em 2:00</div>
+  `;
+  document.body.appendChild(ol);
+
+  const sirenInt=setInterval(playStopLossSound,2500);
+  const cdInt=setInterval(()=>{
+    const rem=Math.max(0,totalMs-(Date.now()-startTime));
+    const m=Math.floor(rem/60000),s=Math.floor((rem%60000)/1000);
+    const t=document.getElementById('sl-timer'),b=document.getElementById('sl-bar');
+    if(t)t.textContent=`Fechando em ${m}:${String(s).padStart(2,'0')}`;
+    if(b)b.style.width=(rem/totalMs*100)+'%';
+    if(rem<=0){clearInterval(cdInt);clearInterval(sirenInt);ol.remove();stopLossActive=false;epicActive=false;startAuto();}
+  },500);
+}
+
+function checkStopLoss(){
+  if(!_tM||!_tR)return;
+  const now=new Date(),h=now.getHours(),m=now.getMinutes();
+  const isCP=(h===12&&m<=2)||(h===16&&m<=2);
+  if(!isCP)return;
+  const key=h===12?12:16;
+  const today=now.toDateString();
+  if(!stopLossShown._date||stopLossShown._date!==today) stopLossShown={12:false,16:false,_date:today};
+  if(stopLossShown[key])return;
+  const{pct}=calcRitmo(_tM,_tR);
+  if(pct<80){stopLossShown[key]=true;showStopLoss(_tM,_tR);}
+}
+
+// ════ LOAD PLANILHA ════
+async function load(){
+  try{
+    const csv=g=>fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${g}`).then(r=>r.text());
+
+    // Lê abas — GIDs padrão, ajuste conforme sua planilha
+    const [dC,dP]=await Promise.all([csv('824219416'),csv('80516904')]);
+
+    // Consultores
+    const LC=dC.trim().split('\n'),hC=sp(LC[0]);
+    const consultores=LC.slice(1).map(l=>{const v=sp(l);const o={};hC.forEach((k,i)=>o[k]=(v[i]||''));return o;})
+      .filter(r=>r['Consultor']&&r['Consultor'].trim())
+      .map(r=>{
+        const nome=r['Consultor'].trim();
+        const meta=num(r['Meta do Dia']),real=num(r['Receita Realizada']);
+        const pct=meta>0?real/meta*100:0;
+        const cfg=CONSULTORES.find(c=>c.nome.toLowerCase()===nome.toLowerCase())||{emoji:'💼'};
+        return{nome,meta,real,pct,emoji:cfg.emoji};
+      }).sort((a,b)=>b.pct-a.pct);
+
+    // Pré-consultores
+    const LP=dP.trim().split('\n'),hP=sp(LP[0]);
+    const preConsultores=LP.slice(1).map(l=>{const v=sp(l);const o={};hP.forEach((k,i)=>o[k]=(v[i]||''));return o;})
+      .filter(r=>r['Pré-Consultor']&&r['Pré-Consultor'].trim())
+      .map(r=>{
+        const nome=r['Pré-Consultor'].trim();
+        const meta=num(r['Meta Agendamentos']),real=num(r['Agendamentos Feitos']);
+        const pct=meta>0?real/meta*100:0;
+        const cfg=PRE_CONSULTORES.find(c=>c.nome.toLowerCase()===nome.toLowerCase())||{emoji:'⚡'};
+        return{nome,meta,real,pct,emoji:cfg.emoji};
+      });
+
+    const tM=consultores.reduce((s,c)=>s+c.meta,0);
+    const tR=consultores.reduce((s,c)=>s+c.real,0);
+    const tP=tM>0?tR/tM*100:0;
+    _tM=tM;_tR=tR;
+
+    // ── S0 HERO ──
+    const p=Math.round(tP);
+    document.getElementById('h-pct').textContent=p+'%';
+    document.getElementById('h-pct').style.color=col(p);
+    document.getElementById('h-sub').textContent=f(tR)+' realizados de '+f(tM)+' estimados';
+    document.getElementById('h-bar').style.width=Math.min(p,100)+'%';
+    document.getElementById('h-verde').textContent=consultores.filter(c=>c.pct>=80).length;
+    document.getElementById('h-alerta').textContent=consultores.filter(c=>c.pct>=50&&c.pct<80).length;
+    document.getElementById('h-risco').textContent=consultores.filter(c=>c.pct<50).length;
+    document.getElementById('h-mini').innerHTML=consultores.map((c,i)=>`
+      <div class="mini-chip">
+        <span class="mc-rank">${['🥇','🥈','🥉','4°'][i]||''}</span>
+        <span class="mc-name">${c.emoji} ${c.nome.split(' ')[0]}</span>
+        <span class="mc-pct" style="color:${col(c.pct)}">${Math.round(c.pct)}%</span>
+      </div>`).join('');
+
+    // ── S1 RANKING CONSULTORES ──
+    document.getElementById('rank-consultores').innerHTML=consultores.map((c,i)=>{
+      const pctR=Math.round(c.pct);
+      return `
+      <div class="rank-big-card ${i===0?'p1':i===1?'p2':''}">
+        <div class="rbc-emoji">${c.emoji}</div>
+        <div class="rbc-medal">${['🥇','🥈','🥉','4'][i]||i+1}</div>
+        <div class="rbc-info">
+          <div class="rbc-name">${c.nome}</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:2px">${f(c.real)} de ${f(c.meta)}</div>
+          <div class="rbc-bar-wrap"><div class="rbc-bar" style="width:${Math.min(pctR,100)}%"></div></div>
+        </div>
+        <div class="rbc-right">
+          <div class="rbc-pct" style="color:${col(c.pct)}">${pctR}%</div>
+          <div class="rbc-vals">${f(c.real)} / ${f(c.meta)}</div>
+          <div class="rbc-status ${scls(c.pct)}">${slbl(c.pct)}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    // ── S3 PRÉ-CONSULTORES ──
+    document.getElementById('pre-grid').innerHTML=preConsultores.map(p=>{
+      const pctP=Math.round(p.pct);
+      const faltam=Math.max(0,p.meta-p.real);
+      return `
+      <div class="pre-card">
+        <div>
+          <div class="pre-top"><div class="pre-name">${p.nome}</div><div class="pre-emoji">${p.emoji}</div></div>
+          <div class="pre-num">${p.real}</div>
+          <div class="pre-meta">${p.real} de ${p.meta} agendamentos · ${pctP}%</div>
+          <div class="pre-bar-wrap"><div class="pre-bar" style="width:${Math.min(pctP,100)}%"></div></div>
+        </div>
+        <div class="pre-stats">
+          <div class="pre-stat"><div class="pv c-green">${p.real}</div><div class="pl">Feitos</div></div>
+          <div class="pre-stat"><div class="pv c-red">${faltam}</div><div class="pl">Faltam</div></div>
+          <div class="pre-stat"><div class="pv" style="color:${col(p.pct)}">${pctP}%</div><div class="pl">Taxa</div></div>
+        </div>
+      </div>`;
+    }).join('');
+
+    // ── S4 VISÃO GERAL ──
+    document.getElementById('ov-consultores').innerHTML=consultores.map(c=>`
+      <div class="ov-item">
+        <span class="ov-emoji">${c.emoji}</span>
+        <span class="ov-name">${c.nome.split(' ')[0]}</span>
+        <div class="ov-bar-wrap"><div class="ov-bar" style="width:${Math.min(Math.round(c.pct),100)}%;background:${col(c.pct)}"></div></div>
+        <span class="ov-pct" style="color:${col(c.pct)}">${Math.round(c.pct)}%</span>
+      </div>`).join('');
+    document.getElementById('ov-pre').innerHTML=preConsultores.map(p=>`
+      <div class="ov-item">
+        <span class="ov-emoji">${p.emoji}</span>
+        <span class="ov-name">${p.nome}</span>
+        <div class="ov-bar-wrap"><div class="ov-bar" style="width:${Math.min(Math.round(p.pct),100)}%;background:var(--purple)"></div></div>
+        <span class="ov-pct" style="color:var(--purple)">${Math.round(p.pct)}%</span>
+      </div>`).join('');
+
+    document.getElementById('upd').innerHTML='Atualizado<br>'+new Date().toLocaleTimeString('pt-BR');
+  }catch(e){console.error('Erro planilha:',e);}
+}
+
+// ════ LOOP ════
+load();
+renderSlots();
+setInterval(load,60*1000);
+setInterval(renderSlots,5*60*1000); // agenda a cada 5 min
+setInterval(checkStopLoss,30*1000);
+</script>
+</body>
+</html>
