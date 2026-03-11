@@ -197,7 +197,7 @@ body.shaking{animation:screenShake .7s cubic-bezier(.36,.07,.19,.97);}
   <div class="slots-section">
     <div class="aloc-summary" id="aloc-summary"></div>
     <div class="slots-summary" id="slots-summary"></div>
-    <div class="slots-grid" id="slots-grid" style="grid-template-columns:1fr 1fr 1fr;"></div>
+    <div class="slots-grid" id="slots-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;"></div>
   </div>
 </div>
 
@@ -227,7 +227,6 @@ body.shaking{animation:screenShake .7s cubic-bezier(.36,.07,.19,.97);}
 // ════ CONFIG ════
 const SHEET_ID = '1Pzlx7HPyDkKMiVuBMqO99Ou7NXOoT_p8R17lQM2bFEw';
 
-// Proxies em ordem de preferência — tenta o próximo se falhar
 const PROXIES = [
   url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
   url => `https://corsproxy.io/?${url}`,
@@ -240,6 +239,7 @@ const CONSULTORES = [
   { nome:'Juliana França', emoji:'🎯', ical:`${ICAL_BASE}/juliana.franca%40fluencypass.com/public/basic.ics` },
   { nome:'Everton Lima',   emoji:'💼', ical:`${ICAL_BASE}/everton.lima%40fluencypass.com/public/basic.ics` },
   { nome:'Érica Pereira',  emoji:'⭐', ical:`${ICAL_BASE}/erica.pereira%40fluencypass.com/public/basic.ics` },
+  { nome:'Duarte',         emoji:'🌟', ical:`${ICAL_BASE}/vitoria.beatriz%40fluencypass.com/public/basic.ics` },
 ];
 
 const PRE_CONSULTORES = [
@@ -303,10 +303,10 @@ async function fetchWithFallback(url) {
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const text = await res.text();
       if (!text || text.length < 50) throw new Error('Resposta vazia');
-      console.log(`✅ ${url.split('/')[6]} — proxy ${i} ok`);
+      console.log(`✅ proxy ${i} ok para ${url.split('/')[6]}`);
       return { text, proxyIndex: i };
     } catch (e) {
-      console.warn(`⚠️ Proxy ${i} falhou para ${url}: ${e.message}`);
+      console.warn(`⚠️ Proxy ${i} falhou: ${e.message}`);
       if (i === PROXIES.length - 1) throw new Error(`Todos os proxies falharam: ${e.message}`);
     }
   }
@@ -325,8 +325,8 @@ function parseIcal(text){
       return m?m[1].replace(/\r/g,'').trim():'';
     };
     const dtstart=getVal('DTSTART');
-    const summary=getVal('SUMMARY');
     const dtend=getVal('DTEND');
+    const summary=getVal('SUMMARY');
     const today=new Date();
     const y=today.getFullYear(),mo=String(today.getMonth()+1).padStart(2,'0'),d=String(today.getDate()).padStart(2,'0');
     const todayStr=`${y}${mo}${d}`;
@@ -455,7 +455,7 @@ async function renderSlots(){
       <div class="av" style="color:${corGeral}">${pctAlocGeral}%</div>
       <div class="al">🎯 Alocação Geral do Dia</div>
       <div class="ab"><div class="alocacao-bar"><div class="alocacao-fill" style="width:${Math.min(pctAlocGeral,100)}%;background:${corGeral}"></div></div></div>
-      <div style="font-size:10px;color:var(--muted);margin-top:4px">${totalOccupiedDia} de ${totalSlotsDia} slots · meta ${META_ALOCACAO}%</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:4px">${totalOccupiedDia} de ${totalSlotsDia} slots ocupados · meta ${META_ALOCACAO}%</div>
     </div>
     ${consultorData.map(c=>`
     <div class="aloc-card ${c.pctAlocDia>=META_ALOCACAO?'great':c.pctAlocDia>=50?'ok':'risk'}">
