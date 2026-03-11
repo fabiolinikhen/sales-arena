@@ -485,6 +485,155 @@ async function renderSlots(){
   `;
 }
 
+// ════ BATALHA DO COLISEU — TOMADA DE TRONO ════
+let _lastLeader = null;
+
+function playTronoSound() {
+  try {
+    const ctx = new(window.AudioContext || window.webkitAudioContext)();
+    // Fanfarra épica
+    const notes = [523, 659, 784, 1047, 784, 1047, 1319];
+    const dur =   [0.15,0.15,0.15,0.3,  0.15,0.15, 0.5];
+    let t = ctx.currentTime;
+    notes.forEach((freq, i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type = 'square'; o.frequency.value = freq;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.25, t + 0.02);
+      g.gain.linearRampToValueAtTime(0, t + dur[i]);
+      o.start(t); o.stop(t + dur[i]);
+      t += dur[i] + 0.02;
+    });
+    // Boom grave
+    const boom = ctx.createOscillator(), bg = ctx.createGain();
+    boom.connect(bg); bg.connect(ctx.destination);
+    boom.type = 'sine'; boom.frequency.setValueAtTime(80, ctx.currentTime);
+    boom.frequency.exponentialRampToValueAtTime(20, ctx.currentTime + 1);
+    bg.gain.setValueAtTime(0.8, ctx.currentTime);
+    bg.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1);
+    boom.start(ctx.currentTime); boom.stop(ctx.currentTime + 1);
+  } catch(e) {}
+}
+
+function makeConfetti(container) {
+  const colors = ['#f59e0b','#fbbf24','#10b981','#8b5cf6','#ef4444','#fff','#a78bfa'];
+  for (let i = 0; i < 120; i++) {
+    const p = document.createElement('div');
+    const sz = Math.random() * 10 + 6;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    p.style.cssText = `
+      position:absolute;width:${sz}px;height:${sz}px;
+      background:${color};border-radius:${Math.random()>0.5?'50%':'2px'};
+      left:${Math.random()*100}%;top:-20px;opacity:1;
+      animation:confettiFall ${Math.random()*2+1.5}s ease-in ${Math.random()*1.5}s forwards;
+    `;
+    container.appendChild(p);
+  }
+}
+
+function showTronoBattle(novoLider, antigoLider) {
+  if (epicActive) return;
+  epicActive = true; clearInterval(autoInt);
+  playTronoSound();
+  shakeScreen();
+
+  const totalMs = 8000;
+  const startTime = Date.now();
+
+  const ol = document.createElement('div');
+  ol.id = 'trono-overlay';
+  ol.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:#000;';
+
+  ol.innerHTML = `
+    <style>
+      @keyframes tronoBg{0%{background:radial-gradient(ellipse at center,#1a0a00,#000)}50%{background:radial-gradient(ellipse at center,#1a1000,#0a0500)}100%{background:radial-gradient(ellipse at center,#1a0a00,#000)}}
+      @keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+      @keyframes tronoSlam{0%{opacity:0;transform:scale(3) rotate(-5deg)}60%{transform:scale(.95) rotate(1deg)}100%{opacity:1;transform:scale(1) rotate(0deg)}}
+      @keyframes tronoGlow{0%,100%{text-shadow:0 0 20px #f59e0b,0 0 40px #f59e0b}50%{text-shadow:0 0 60px #f59e0b,0 0 120px #f59e0b,0 0 200px #fbbf24}}
+      @keyframes tronoUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+      @keyframes tronoFlash{0%,100%{opacity:1}50%{opacity:.5}}
+      @keyframes crownBounce{0%,100%{transform:translateY(0) rotate(-5deg) scale(1)}50%{transform:translateY(-20px) rotate(5deg) scale(1.15)}}
+      @keyframes swordLeft{0%{transform:translateX(-200px) rotate(-45deg);opacity:0}60%{transform:translateX(0) rotate(-10deg);opacity:1}100%{transform:translateX(0) rotate(-10deg);opacity:1}}
+      @keyframes swordRight{0%{transform:translateX(200px) rotate(45deg);opacity:0}60%{transform:translateX(0) rotate(10deg);opacity:1}100%{transform:translateX(0) rotate(10deg);opacity:1}}
+      @keyframes tronoStripe{0%{background-position:0 0}100%{background-position:80px 0}}
+      @keyframes detronedShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px) rotate(-2deg)}40%{transform:translateX(8px) rotate(2deg)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+      #trono-overlay{animation:tronoBg 2s ease-in-out infinite;}
+      #trono-overlay::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(245,158,11,.05) 0,rgba(245,158,11,.05) 10px,transparent 10px,transparent 40px);animation:tronoStripe 3s linear infinite;pointer-events:none;}
+    </style>
+
+    <!-- Borda dourada pulsante -->
+    <div style="position:absolute;inset:0;border:8px solid #f59e0b;pointer-events:none;animation:tronoFlash .8s ease-in-out infinite;box-shadow:inset 0 0 100px rgba(245,158,11,.2),0 0 40px rgba(245,158,11,.4)"></div>
+
+    <!-- Confetti container -->
+    <div id="confetti-wrap" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;"></div>
+
+    <!-- Título TOMADA DE TRONO -->
+    <div style="font-size:clamp(13px,2vw,18px);font-weight:900;letter-spacing:8px;color:#f59e0b;text-transform:uppercase;margin-bottom:8px;animation:tronoUp .5s ease both;">⚔️ TOMADA DE TRONO ⚔️</div>
+
+    <!-- Corona animada -->
+    <div style="font-size:clamp(60px,10vw,100px);animation:crownBounce 1s ease-in-out infinite;filter:drop-shadow(0 0 30px #f59e0b);margin-bottom:4px;">👑</div>
+
+    <!-- Nome do novo líder -->
+    <div style="font-size:clamp(40px,8vw,90px);font-weight:900;line-height:1;letter-spacing:2px;color:#f59e0b;animation:tronoSlam .5s cubic-bezier(.22,.61,.36,1) .2s both,tronoGlow 1.5s ease-in-out infinite;text-align:center;text-transform:uppercase;">
+      ${novoLider.emoji} ${novoLider.nome.split(' ')[0].toUpperCase()}
+    </div>
+    <div style="font-size:clamp(18px,3vw,28px);font-weight:800;color:#fbbf24;margin-top:4px;animation:tronoUp .4s ease .4s both;">ASSUMIU O TRONO!</div>
+
+    <!-- Espadas -->
+    <div style="display:flex;align-items:center;gap:24px;margin:20px 0;animation:tronoUp .4s ease .5s both;">
+      <div style="font-size:clamp(40px,6vw,70px);animation:swordLeft .6s ease .3s both;">⚔️</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="font-size:clamp(30px,5vw,56px);font-weight:900;color:#fff;">${Math.round(novoLider.pct)}%</div>
+        <div style="font-size:12px;color:#94a3b8;font-weight:700;letter-spacing:2px;">ATINGIMENTO</div>
+      </div>
+      <div style="font-size:clamp(40px,6vw,70px);animation:swordRight .6s ease .3s both;">⚔️</div>
+    </div>
+
+    <!-- Destronado -->
+    <div style="background:rgba(0,0,0,.5);border:2px solid rgba(239,68,68,.4);border-radius:16px;padding:14px 32px;text-align:center;animation:tronoUp .4s ease .7s both;">
+      <div style="font-size:12px;color:#ef4444;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;">⬇️ Destronado</div>
+      <div style="font-size:clamp(20px,3vw,32px);font-weight:900;color:rgba(255,255,255,.5);animation:detronedShake .5s ease .8s both;">
+        ${antigoLider.emoji} ${antigoLider.nome.split(' ')[0]} — ${Math.round(antigoLider.pct)}%
+      </div>
+    </div>
+
+    <!-- Barra de countdown -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:6px;background:rgba(255,255,255,.08);">
+      <div id="trono-bar" style="height:100%;background:linear-gradient(90deg,#f59e0b,#fbbf24);width:100%;box-shadow:0 0 12px #f59e0b;transition:width .5s linear;"></div>
+    </div>
+    <div id="trono-timer" style="position:absolute;bottom:14px;font-size:12px;color:#64748b;font-weight:700;letter-spacing:2px;"></div>
+  `;
+
+  document.body.appendChild(ol);
+  makeConfetti(document.getElementById('confetti-wrap'));
+
+  const cdInt = setInterval(() => {
+    const rem = Math.max(0, totalMs - (Date.now() - startTime));
+    const b = document.getElementById('trono-bar');
+    const t = document.getElementById('trono-timer');
+    if (b) b.style.width = (rem / totalMs * 100) + '%';
+    if (t) t.textContent = `Continuando em ${Math.ceil(rem/1000)}s`;
+    if (rem <= 0) {
+      clearInterval(cdInt);
+      ol.remove();
+      epicActive = false;
+      startAuto();
+    }
+  }, 500);
+}
+
+function checkTrono(consultores) {
+  if (!consultores || consultores.length === 0) return;
+  const liderAtual = consultores[0].nome;
+  if (_lastLeader && _lastLeader !== liderAtual) {
+    const novoLider  = consultores[0];
+    const antigoLider = consultores.find(c => c.nome === _lastLeader) || { nome: _lastLeader, emoji: '💼', pct: 0 };
+    showTronoBattle(novoLider, antigoLider);
+  }
+  _lastLeader = liderAtual;
+}
+
 // ════ STOP LOSS ════
 let stopLossShown={12:false,16:false},stopLossActive=false;
 let _tM=0,_tR=0;
@@ -637,6 +786,8 @@ async function load(){
         <span class="mc-name">${c.emoji} ${c.nome.split(' ')[0]}</span>
         <span class="mc-pct" style="color:${col(c.pct)}">${Math.round(c.pct)}%</span>
       </div>`).join('');
+
+    checkTrono(consultores);
 
     document.getElementById('rank-consultores').innerHTML=consultores.map((c,i)=>{
       const pctR=Math.round(c.pct);
