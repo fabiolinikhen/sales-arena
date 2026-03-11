@@ -90,12 +90,7 @@ header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1
 .cs-stat.empty{background:rgba(239,68,68,.15);color:var(--red);}
 .cs-stat.loading{background:rgba(100,116,139,.15);color:var(--muted);}
 .slots-row{display:flex;gap:6px;flex-wrap:wrap;}
-.slot{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  border-radius:10px;padding:6px 10px;font-size:11px;font-weight:700;
-  min-width:64px;flex:1;border:1px solid transparent;
-  transition:all .3s;position:relative;overflow:hidden;
-}
+.slot{display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;padding:6px 10px;font-size:11px;font-weight:700;min-width:64px;flex:1;border:1px solid transparent;transition:all .3s;position:relative;overflow:hidden;}
 .slot.occupied{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.3);color:var(--green);}
 .slot.empty{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:var(--red);animation:emptyPulse 2s ease-in-out infinite;}
 .slot.past{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.06);color:var(--muted);opacity:.5;}
@@ -104,7 +99,6 @@ header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1
 .slot-time{font-size:10px;font-weight:800;letter-spacing:.5px;}
 .slot-icon{font-size:14px;margin-top:2px;}
 .slot-label{font-size:9px;margin-top:1px;opacity:.8;}
-/* Status de erro/carregando */
 .cal-status{font-size:11px;color:var(--muted);text-align:center;padding:8px;font-style:italic;}
 
 /* ═══ S3 PRÉ-CONSULTORES ═══ */
@@ -138,20 +132,11 @@ header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1
 .ov-bar{height:100%;border-radius:4px;transition:width 1s ease;}
 .ov-pct{font-size:15px;font-weight:900;flex-shrink:0;min-width:44px;text-align:right;}
 
-/* ALOCAÇÃO DO DIA */
-.alocacao-bar{
-  width:100%;background:rgba(255,255,255,.06);border-radius:10px;
-  height:12px;overflow:hidden;border:1px solid var(--border);margin-top:6px;
-}
+.alocacao-bar{width:100%;background:rgba(255,255,255,.06);border-radius:10px;height:12px;overflow:hidden;border:1px solid var(--border);margin-top:6px;}
 .alocacao-fill{height:100%;border-radius:10px;transition:width 1.5s ease;position:relative;overflow:hidden;}
 .alocacao-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:shine 2s infinite;}
-.aloc-summary{
-  display:flex;gap:10px;flex-shrink:0;margin-bottom:10px;
-}
-.aloc-card{
-  flex:1;background:rgba(255,255,255,.03);border:1px solid var(--border);
-  border-radius:12px;padding:10px 16px;text-align:center;position:relative;overflow:hidden;
-}
+.aloc-summary{display:flex;gap:10px;flex-shrink:0;margin-bottom:10px;}
+.aloc-card{flex:1;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:10px 16px;text-align:center;position:relative;overflow:hidden;}
 .aloc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0;}
 .aloc-card.great::before{background:linear-gradient(90deg,#059669,#10b981);}
 .aloc-card.ok::before{background:linear-gradient(90deg,#d97706,#fbbf24);}
@@ -159,6 +144,7 @@ header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1
 .aloc-card .av{font-size:clamp(22px,3vw,36px);font-weight:900;line-height:1;}
 .aloc-card .al{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
 .aloc-card .ab{margin-top:6px;}
+
 #prog{position:fixed;bottom:0;left:0;height:4px;background:linear-gradient(90deg,var(--purple),#a78bfa,var(--gold));z-index:100;transition:none;}
 #dots{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:100;}
 .di{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .4s;cursor:pointer;}
@@ -166,7 +152,6 @@ header{position:relative;z-index:10;background:linear-gradient(135deg,#0f172a,#1
 
 .c-green{color:var(--green);}.c-gold{color:var(--gold);}.c-red{color:var(--red);}.c-purple{color:var(--purple);}
 
-/* ═══ STOP LOSS ═══ */
 @keyframes screenShake{0%,100%{transform:translate(0,0)}10%{transform:translate(-12px,-8px)}20%{transform:translate(14px,10px)}30%{transform:translate(-10px,12px)}40%{transform:translate(16px,-10px)}50%{transform:translate(-14px,8px)}60%{transform:translate(10px,-12px)}70%{transform:translate(-8px,10px)}80%{transform:translate(12px,-6px)}90%{transform:translate(-6px,4px)}}
 body.shaking{animation:screenShake .7s cubic-bezier(.36,.07,.19,.97);}
 </style>
@@ -184,7 +169,6 @@ body.shaking{animation:screenShake .7s cubic-bezier(.36,.07,.19,.97);}
   </div>
 </header>
 
-<!-- S0: META GERAL -->
 <div id="s0" class="slide active">
   <div class="st">🎯 Meta Geral de Receita</div>
   <div class="hero">
@@ -203,13 +187,11 @@ body.shaking{animation:screenShake .7s cubic-bezier(.36,.07,.19,.97);}
   </div>
 </div>
 
-<!-- S1: RANKING CONSULTORES -->
 <div id="s1" class="slide">
   <div class="st">💼 Ranking de Consultores</div>
   <div class="ranking-big" id="rank-consultores"></div>
 </div>
 
-<!-- S2: SLOTS DE AGENDA -->
 <div id="s2" class="slide">
   <div class="st">📅 Slots de Agenda — Visão em Tempo Real</div>
   <div class="slots-section">
@@ -219,13 +201,11 @@ body.shaking{animation:screenShake .7s cubic-bezier(.36,.07,.19,.97);}
   </div>
 </div>
 
-<!-- S3: PRÉ-CONSULTORES -->
 <div id="s3" class="slide">
   <div class="st">⚡ Pré-Consultores — Agendamentos</div>
   <div class="pre-grid" id="pre-grid"></div>
 </div>
 
-<!-- S4: VISÃO GERAL -->
 <div id="s4" class="slide">
   <div class="st">🏆 Visão Geral do Time</div>
   <div class="overview" id="overview">
@@ -247,10 +227,19 @@ body.shaking{animation:screenShake .7s cubic-bezier(.36,.07,.19,.97);}
 // ════ CONFIG ════
 const SHEET_ID = '1Pzlx7HPyDkKMiVuBMqO99Ou7NXOoT_p8R17lQM2bFEw';
 
+// Proxies em ordem de preferência — tenta o próximo se falhar
+const PROXIES = [
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?${url}`,
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+];
+
+const ICAL_BASE = 'https://calendar.google.com/calendar/ical';
+
 const CONSULTORES = [
-  { nome:'Juliana França', emoji:'🎯', ical:'https://corsproxy.io/?https://calendar.google.com/calendar/ical/juliana.franca%40fluencypass.com/public/basic.ics' },
-  { nome:'Everton Lima',   emoji:'💼', ical:'https://corsproxy.io/?https://calendar.google.com/calendar/ical/everton.lima%40fluencypass.com/public/basic.ics' },
-  { nome:'Érica Pereira',  emoji:'⭐', ical:'https://corsproxy.io/?https://calendar.google.com/calendar/ical/erica.pereira%40fluencypass.com/public/basic.ics' },
+  { nome:'Juliana França', emoji:'🎯', ical:`${ICAL_BASE}/juliana.franca%40fluencypass.com/public/basic.ics` },
+  { nome:'Everton Lima',   emoji:'💼', ical:`${ICAL_BASE}/everton.lima%40fluencypass.com/public/basic.ics` },
+  { nome:'Érica Pereira',  emoji:'⭐', ical:`${ICAL_BASE}/erica.pereira%40fluencypass.com/public/basic.ics` },
 ];
 
 const PRE_CONSULTORES = [
@@ -258,9 +247,9 @@ const PRE_CONSULTORES = [
   { nome:'Victor', emoji:'🚀' },
 ];
 
-// Slots: 11h às 21h (10 slots de 1h)
 const SLOTS_INICIO = 11;
 const SLOTS_FIM    = 21;
+const META_ALOCACAO = 80;
 const DUR = 14000;
 const LABELS = ['🎯 Meta Geral','💼 Consultores','📅 Agenda','⚡ Pré-Vendas','🏆 Visão Geral'];
 
@@ -305,6 +294,24 @@ const scls=p=>p>=80?'s-green':p>=50?'s-gold':'s-red';
 const slbl=p=>p>=80?'✅ Meta Batida':p>=50?'⚠️ Em Alerta':'🚨 Em Risco';
 function sp(l){const v=[];let c='',q=false;for(const ch of l){if(ch==='"'){q=!q;continue;}if(ch===','&&!q){v.push(c.trim());c='';}else c+=ch;}v.push(c.trim());return v;}
 
+// ════ FETCH COM FALLBACK DE PROXY ════
+async function fetchWithFallback(url) {
+  for (let i = 0; i < PROXIES.length; i++) {
+    try {
+      const proxyUrl = PROXIES[i](url);
+      const res = await fetch(proxyUrl, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const text = await res.text();
+      if (!text || text.length < 50) throw new Error('Resposta vazia');
+      console.log(`✅ ${url.split('/')[6]} — proxy ${i} ok`);
+      return { text, proxyIndex: i };
+    } catch (e) {
+      console.warn(`⚠️ Proxy ${i} falhou para ${url}: ${e.message}`);
+      if (i === PROXIES.length - 1) throw new Error(`Todos os proxies falharam: ${e.message}`);
+    }
+  }
+}
+
 // ════ iCAL PARSER ════
 function parseIcal(text){
   const events=[];
@@ -318,27 +325,22 @@ function parseIcal(text){
       return m?m[1].replace(/\r/g,'').trim():'';
     };
     const dtstart=getVal('DTSTART');
-    const dtend=getVal('DTEND');
     const summary=getVal('SUMMARY');
-    const transp=getVal('TRANSP');
-    // Só eventos de hoje
+    const dtend=getVal('DTEND');
     const today=new Date();
     const y=today.getFullYear(),mo=String(today.getMonth()+1).padStart(2,'0'),d=String(today.getDate()).padStart(2,'0');
     const todayStr=`${y}${mo}${d}`;
     if(dtstart.includes(todayStr)){
-      // Extrai hora
       const parseH=dt=>{
-        // Formato: 20240115T130000Z ou 20240115T130000
         const m=dt.match(/T(\d{2})(\d{2})/);
         if(!m)return null;
         let h=parseInt(m[1]),min=parseInt(m[2]);
-        // Se termina em Z, converte UTC→BRT (-3h)
         if(dt.endsWith('Z')) h=(h-3+24)%24;
         return{h,min};
       };
       const start=parseH(dtstart);
       const finish=parseH(dtend);
-      if(start) events.push({summary,start,finish,transp,dtstart});
+      if(start) events.push({summary,start,finish,dtstart});
     }
   });
   return events;
@@ -349,34 +351,28 @@ function isSlotOccupied(events,slotH){
     if(!ev.start)return false;
     const sh=ev.start.h,sm=ev.start.min||0;
     const eh=ev.finish?ev.finish.h:sh+1;
-    // Slot de slotH:00 até slotH+1:00 — verifica sobreposição
-    const slotStart=slotH*60;
-    const slotEnd=(slotH+1)*60;
-    const evStart=sh*60+sm;
-    const evEnd=eh*60+(ev.finish?ev.finish.min||0:0);
+    const slotStart=slotH*60,slotEnd=(slotH+1)*60;
+    const evStart=sh*60+sm,evEnd=eh*60+(ev.finish?ev.finish.min||0:0);
     return evStart<slotEnd && evEnd>slotStart;
   });
 }
 
-// ════ FETCH iCAL ════
+// ════ CACHE iCAL ════
 const calCache={};
-async function fetchCal(url,nome){
+async function fetchCal(url, nome){
   try{
-    const res=await fetch(url,{cache:'no-store'});
-    if(!res.ok) throw new Error('HTTP '+res.status);
-    const text=await res.text();
-    const events=parseIcal(text);
-    calCache[nome]={events,ok:true,ts:Date.now()};
-    return{events,ok:true};
+    const {text} = await fetchWithFallback(url);
+    const events = parseIcal(text);
+    calCache[nome] = {events, ok:true, ts:Date.now()};
+    return {events, ok:true};
   }catch(e){
-    // Tenta cache anterior
-    if(calCache[nome]) return calCache[nome];
-    return{events:[],ok:false,err:e.message};
+    if(calCache[nome]) {
+      console.warn(`Usando cache para ${nome}`);
+      return calCache[nome];
+    }
+    return {events:[], ok:false, err:e.message};
   }
 }
-
-// Meta de alocação: 80% dos slots do dia
-const META_ALOCACAO = 80;
 
 // ════ RENDER SLOTS ════
 async function renderSlots(){
@@ -385,17 +381,14 @@ async function renderSlots(){
   const alocSum=document.getElementById('aloc-summary');
   const now=new Date();
   const nowH=now.getHours();
-  const totalSlotsPerConsultor=SLOTS_FIM-SLOTS_INICIO; // 10 slots por consultor
+  const totalSlotsPerConsultor=SLOTS_FIM-SLOTS_INICIO;
 
   const results=await Promise.all(CONSULTORES.map(c=>fetchCal(c.ical,c.nome)));
 
   grid.innerHTML='';
 
-  let totalOccupiedDia=0; // todos slots ocupados no dia inteiro
-  let totalSlotsDia=CONSULTORES.length*totalSlotsPerConsultor;
-  let totalOccupiedAgora=0; // slots ocupados até agora
-  let totalVaziosAgora=0;
-
+  let totalOccupiedDia=0,totalSlotsDia=CONSULTORES.length*totalSlotsPerConsultor;
+  let totalOccupiedAgora=0,totalVaziosAgora=0;
   const consultorData=[];
 
   CONSULTORES.forEach((c,ci)=>{
@@ -403,31 +396,25 @@ async function renderSlots(){
     const card=document.createElement('div');
     card.className='consultant-slots';
 
-    let occupiedDia=0,emptyAgora=0,occupiedAgora=0,past=0;
+    let occupiedDia=0,emptyAgora=0,occupiedAgora=0;
     const slots=[];
 
     for(let h=SLOTS_INICIO;h<SLOTS_FIM;h++){
       const isPast=h<nowH;
-      const isCurrent=h===nowH;
       const occ=isSlotOccupied(events,h);
-      if(occ) occupiedDia++; // conta TODOS os ocupados do dia
-      if(isPast){past++;}
-      else if(occ){occupiedAgora++;totalOccupiedAgora++;}
-      else{emptyAgora++;totalVaziosAgora++;}
-      slots.push({h,occ,isPast,isCurrent});
+      if(occ) occupiedDia++;
+      if(!isPast){if(occ){occupiedAgora++;totalOccupiedAgora++;}else{emptyAgora++;totalVaziosAgora++;}}
+      slots.push({h,occ,isPast});
     }
 
     totalOccupiedDia+=occupiedDia;
-
-    // % de alocação do dia completo
     const pctAlocDia=Math.round((occupiedDia/totalSlotsPerConsultor)*100);
     const corAloc=pctAlocDia>=META_ALOCACAO?'var(--green)':pctAlocDia>=50?'var(--gold)':'var(--red)';
-
     consultorData.push({nome:c.nome,emoji:c.emoji,occupiedDia,pctAlocDia,corAloc,totalSlotsPerConsultor});
 
     const statusHtml=ok
       ?`<span class="cs-stat occupied">✅ ${occupiedAgora} agora</span><span class="cs-stat empty">❌ ${emptyAgora} vazios</span>`
-      :`<span class="cs-stat loading">⏳ carregando...</span>`;
+      :`<span class="cs-stat loading">⏳ sem dados</span>`;
 
     card.innerHTML=`
       <div class="cs-header">
@@ -435,7 +422,7 @@ async function renderSlots(){
         <span class="cs-name">${c.nome.split(' ')[0]}</span>
         <div class="cs-stats">${statusHtml}</div>
       </div>
-      ${!ok?`<div class="cal-status">⚠️ ${err||'Erro'} — verifique se o calendário está público</div>`:''}
+      ${!ok?`<div class="cal-status">⚠️ ${err||'Erro ao carregar calendário'}</div>`:''}
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
         <span style="font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;">ALOCAÇÃO DO DIA</span>
         <div class="alocacao-bar" style="flex:1">
@@ -458,7 +445,6 @@ async function renderSlots(){
     grid.appendChild(card);
   });
 
-  // ── ALOCAÇÃO GERAL DO DIA ──
   const pctAlocGeral=Math.round((totalOccupiedDia/totalSlotsDia)*100);
   const clsGeral=pctAlocGeral>=META_ALOCACAO?'great':pctAlocGeral>=50?'ok':'risk';
   const corGeral=pctAlocGeral>=META_ALOCACAO?'var(--green)':pctAlocGeral>=50?'var(--gold)':'var(--red)';
@@ -468,22 +454,14 @@ async function renderSlots(){
     <div class="aloc-card ${clsGeral}" style="flex:2">
       <div class="av" style="color:${corGeral}">${pctAlocGeral}%</div>
       <div class="al">🎯 Alocação Geral do Dia</div>
-      <div class="ab">
-        <div class="alocacao-bar">
-          <div class="alocacao-fill" style="width:${Math.min(pctAlocGeral,100)}%;background:${corGeral}"></div>
-        </div>
-      </div>
-      <div style="font-size:10px;color:var(--muted);margin-top:4px">${totalOccupiedDia} de ${totalSlotsDia} slots ocupados · meta ${META_ALOCACAO}%</div>
+      <div class="ab"><div class="alocacao-bar"><div class="alocacao-fill" style="width:${Math.min(pctAlocGeral,100)}%;background:${corGeral}"></div></div></div>
+      <div style="font-size:10px;color:var(--muted);margin-top:4px">${totalOccupiedDia} de ${totalSlotsDia} slots · meta ${META_ALOCACAO}%</div>
     </div>
     ${consultorData.map(c=>`
     <div class="aloc-card ${c.pctAlocDia>=META_ALOCACAO?'great':c.pctAlocDia>=50?'ok':'risk'}">
       <div class="av" style="color:${c.corAloc}">${c.pctAlocDia}%</div>
       <div class="al">${c.emoji} ${c.nome.split(' ')[0]}</div>
-      <div class="ab">
-        <div class="alocacao-bar">
-          <div class="alocacao-fill" style="width:${Math.min(c.pctAlocDia,100)}%;background:${c.corAloc}"></div>
-        </div>
-      </div>
+      <div class="ab"><div class="alocacao-bar"><div class="alocacao-fill" style="width:${Math.min(c.pctAlocDia,100)}%;background:${c.corAloc}"></div></div></div>
       <div style="font-size:10px;color:var(--muted);margin-top:4px">${c.occupiedDia}/${c.totalSlotsPerConsultor} slots</div>
     </div>`).join('')}
     ${faltamSlots>0?`
@@ -499,7 +477,6 @@ async function renderSlots(){
     </div>`}
   `;
 
-  // Resumo atual (hora presente)
   summary.innerHTML=`
     <div class="slot-sum-card"><div class="ssv c-green">${totalOccupiedAgora}</div><div class="ssl">✅ Ocupados Agora</div></div>
     <div class="slot-sum-card"><div class="ssv c-red">${totalVaziosAgora}</div><div class="ssl">❌ Vazios Agora</div></div>
@@ -515,7 +492,7 @@ let _tM=0,_tR=0;
 function calcRitmo(meta,real){
   const now=new Date();
   const minPassados=Math.max(0,(now.getHours()*60+now.getMinutes())-(11*60));
-  const fracao=Math.min(1,minPassados/(10*60)); // 11h às 21h = 10h
+  const fracao=Math.min(1,minPassados/(10*60));
   const esperado=meta*fracao;
   const pct=esperado>0?(real/esperado)*100:100;
   return{esperado,pct,fracao};
@@ -617,11 +594,8 @@ function checkStopLoss(){
 async function load(){
   try{
     const csv=g=>fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${g}`).then(r=>r.text());
-
-    // Lê abas — GIDs padrão, ajuste conforme sua planilha
     const [dC,dP]=await Promise.all([csv('824219416'),csv('80516904')]);
 
-    // Consultores
     const LC=dC.trim().split('\n'),hC=sp(LC[0]);
     const consultores=LC.slice(1).map(l=>{const v=sp(l);const o={};hC.forEach((k,i)=>o[k]=(v[i]||''));return o;})
       .filter(r=>r['Consultor']&&r['Consultor'].trim())
@@ -633,7 +607,6 @@ async function load(){
         return{nome,meta,real,pct,emoji:cfg.emoji};
       }).sort((a,b)=>b.pct-a.pct);
 
-    // Pré-consultores
     const LP=dP.trim().split('\n'),hP=sp(LP[0]);
     const preConsultores=LP.slice(1).map(l=>{const v=sp(l);const o={};hP.forEach((k,i)=>o[k]=(v[i]||''));return o;})
       .filter(r=>r['Pré-Consultor']&&r['Pré-Consultor'].trim())
@@ -650,7 +623,6 @@ async function load(){
     const tP=tM>0?tR/tM*100:0;
     _tM=tM;_tR=tR;
 
-    // ── S0 HERO ──
     const p=Math.round(tP);
     document.getElementById('h-pct').textContent=p+'%';
     document.getElementById('h-pct').style.color=col(p);
@@ -666,7 +638,6 @@ async function load(){
         <span class="mc-pct" style="color:${col(c.pct)}">${Math.round(c.pct)}%</span>
       </div>`).join('');
 
-    // ── S1 RANKING CONSULTORES ──
     document.getElementById('rank-consultores').innerHTML=consultores.map((c,i)=>{
       const pctR=Math.round(c.pct);
       return `
@@ -686,7 +657,6 @@ async function load(){
       </div>`;
     }).join('');
 
-    // ── S3 PRÉ-CONSULTORES ──
     document.getElementById('pre-grid').innerHTML=preConsultores.map(p=>{
       const pctP=Math.round(p.pct);
       const faltam=Math.max(0,p.meta-p.real);
@@ -706,7 +676,6 @@ async function load(){
       </div>`;
     }).join('');
 
-    // ── S4 VISÃO GERAL ──
     document.getElementById('ov-consultores').innerHTML=consultores.map(c=>`
       <div class="ov-item">
         <span class="ov-emoji">${c.emoji}</span>
@@ -729,9 +698,9 @@ async function load(){
 // ════ LOOP ════
 load();
 renderSlots();
-setInterval(load,60*1000);
-setInterval(renderSlots,5*60*1000); // agenda a cada 5 min
-setInterval(checkStopLoss,30*1000);
+setInterval(load, 60*1000);
+setInterval(renderSlots, 5*60*1000);
+setInterval(checkStopLoss, 30*1000);
 </script>
 </body>
 </html>
